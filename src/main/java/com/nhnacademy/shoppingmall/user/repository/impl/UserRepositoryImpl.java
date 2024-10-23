@@ -27,7 +27,7 @@ public class UserRepositoryImpl implements UserRepository {
             psmt.setString(1, userId);
             psmt.setString(2, userPassword);
             try (ResultSet rs = psmt.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     User user = new User(
                             rs.getString("user_id"),
                             rs.getString("user_name"),
@@ -58,7 +58,7 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(1, userId);
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     User user = new User(
                             rs.getString("user_id"),
                             rs.getString("user_name"),
@@ -167,7 +167,7 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(1, userId);
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     return rs.getInt(1);
                 }
             }
