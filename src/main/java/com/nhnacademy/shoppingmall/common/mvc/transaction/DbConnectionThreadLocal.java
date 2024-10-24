@@ -50,12 +50,7 @@ public class DbConnectionThreadLocal {
     public static void reset() {
         Connection connection = connectionThreadLocal.get();
 
-        try {
-            //todo#2-4 사용이 완료된 connection은 close를 호출하여 connection pool에 반환합니다.
-            connection.close();
-        } catch (SQLException e) {
-            log.error("Failed close", e);
-        }
+
 
 
         if (getSqlError()) {
@@ -74,6 +69,12 @@ public class DbConnectionThreadLocal {
             }
         }
 
+        try {
+            //todo#2-4 사용이 완료된 connection은 close를 호출하여 connection pool에 반환합니다.
+            connection.close();
+        } catch (SQLException e) {
+            log.error("Failed close", e);
+        }
 
         //todo#2-7 현재 사용하고 있는 connection을 재사용할 수 없도록 connectionThreadLocal을 초기화 합니다.
         connectionThreadLocal.remove();

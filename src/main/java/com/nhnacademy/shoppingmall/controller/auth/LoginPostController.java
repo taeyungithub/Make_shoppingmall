@@ -26,7 +26,6 @@ public class LoginPostController implements BaseController {
         String userId = req.getParameter("user_id");
         String password = req.getParameter("user_password");
 
-        req.setAttribute("loginFail", false);
 
         User user = userService.doLogin(userId, password);
         if (Objects.nonNull(user)) {
@@ -35,7 +34,6 @@ public class LoginPostController implements BaseController {
             session.setAttribute("user", user);
             return "shop/main/index";
         }
-        req.setAttribute("loginFail", true);
         return "shop/login/login_form";
     }
 

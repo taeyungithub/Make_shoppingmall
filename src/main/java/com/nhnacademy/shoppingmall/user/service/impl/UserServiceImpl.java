@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(userId);
         }
         userRepository.deleteByUserId(userId);
+        log.debug("삭제완료");
     }
 
     @Override
@@ -54,10 +55,11 @@ public class UserServiceImpl implements UserService {
         //todo#4-5 로그인 구현, userId, userPassword로 일치하는 회원 조회
         User user = userRepository.findByUserIdAndUserPassword(userId, userPassword).orElse(null);
         if (user == null) {
-            log.info("로그인 실패");
+            log.debug("로그인 실패");
             throw new UserNotFoundException(userId);
         } else
             userRepository.updateLatestLoginAtByUserId(userId, LocalDateTime.now());
+        log.debug("로그인 성공");
         return user;
     }
 }
