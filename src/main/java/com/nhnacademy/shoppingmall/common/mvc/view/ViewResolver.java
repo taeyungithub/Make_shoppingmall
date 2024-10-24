@@ -1,4 +1,5 @@
 package com.nhnacademy.shoppingmall.common.mvc.view;
+
 public class ViewResolver {
 
     public static final String DEFAULT_PREFIX="/WEB-INF/views/";
@@ -20,28 +21,23 @@ public class ViewResolver {
     }
 
     public  String getPath(String viewName){
-        //todo#6-1  prefix+viewNAme+postfix 반환 합니다.
+        //todo#6-1  postfix+viewNAme+postfix 반환 합니다.
         if (viewName.startsWith("/")) {
-            viewName = viewName.substring(1);
+            return prefix + viewName.substring(1) + postfix;
         }
-        String result = prefix + viewName + postfix;
-        return result;
+        return prefix + viewName + postfix;
+
     }
 
     public boolean isRedirect(String viewName){
         //todo#6-2 REDIRECT_PREFIX가 포함되어 있는지 체크 합니다.
-        viewName = viewName.toLowerCase();
-        if (viewName.contains(REDIRECT_PREFIX)){
-            return true;
-        }
-        return false;
+        return viewName.toLowerCase().startsWith(REDIRECT_PREFIX.toLowerCase());
     }
 
     public String getRedirectUrl(String viewName){
         //todo#6-3 REDIRECT_PREFIX를 제외한 url을 반환 합니다.
-        viewName = viewName.toLowerCase();
-        String result = viewName.substring(REDIRECT_PREFIX.length());
-        return result;
+
+        return isRedirect(viewName) ? viewName.substring(REDIRECT_PREFIX.length()) : viewName;
     }
 
     public String getLayOut(String viewName){
@@ -50,10 +46,8 @@ public class ViewResolver {
            /admin/경로가 포함되었다면 DEFAULT_ADMIN_LAYOUT 반환 합니다.
            /admin/경로가 포함되어 있지않다면 DEFAULT_SHOP_LAYOUT 반환 합니다.
         */
-        if (viewName.contains("/admin/")){
-            return DEFAULT_ADMIN_LAYOUT;
-        } else{
-            return DEFAULT_SHOP_LAYOUT;
-        }
-    }
+
+        return viewName.contains("/admin/") ? DEFAULT_ADMIN_LAYOUT : DEFAULT_SHOP_LAYOUT;
+    };
+
 }

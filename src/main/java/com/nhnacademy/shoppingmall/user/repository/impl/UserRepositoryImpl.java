@@ -83,7 +83,9 @@ public class UserRepositoryImpl implements UserRepository {
     public int save(User user) {
         //todo#3-3 회원등록, executeUpdate()을 반환합니다.
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "INSERT INTO users (user_id, user_name, user_password, user_birth, user_auth, user_point, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (user_id, user_name, user_password, user_birth, user_auth, user_point, created_at, latest_login_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        log.debug("sql:{}", sql);
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, user.getUserId());
@@ -92,11 +94,14 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(4, user.getUserBirth());
             preparedStatement.setString(5, user.getUserAuth().name());
             preparedStatement.setInt(6, user.getUserPoint());
-            preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(user.getCreatedAt()));
+            preparedStatement.setTimestamp(8, Objects.nonNull(user.getLatestLoginAt()) ? Timestamp.valueOf(user.getLatestLoginAt()) : null);
 
             return preparedStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            log.error("사용자 중복 등록", e);
+            throw new RuntimeException(e);
         } catch (SQLException e) {
-            log.error("user save error : ", e);
             throw new RuntimeException(e);
         }
     }
@@ -121,21 +126,24 @@ public class UserRepositoryImpl implements UserRepository {
     public int update(User user) {
         //todo#3-5 회원수정, executeUpdate()을 반환합니다.
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "UPDATE users SET user_name = ?, user_password = ?, user_birth = ?, user_auth = ?, user_point = ? WHERE user_id = ?";
+        String sql = "update users set user_id=?, user_name=?, user_password=?, user_birth=?, user_auth=?, user_point=?, created_at=?, latest_login_at=? " +
+                "where user_id=?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, user.getUserName());
-            preparedStatement.setString(2, user.getUserPassword());
-            preparedStatement.setString(3, user.getUserBirth());
-            preparedStatement.setString(4, user.getUserAuth().name());
-            preparedStatement.setInt(5, user.getUserPoint());
-            preparedStatement.setString(6, user.getUserId());
+            preparedStatement.setString(1, user.getUserId());
+            preparedStatement.setString(2, user.getUserName());
+            preparedStatement.setString(3, user.getUserPassword());
+            preparedStatement.setString(4, user.getUserBirth());
+            preparedStatement.setString(5, user.getUserAuth().name());
+            preparedStatement.setInt(6, user.getUserPoint());
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(user.getCreatedAt()));
+            preparedStatement.setTimestamp(8, Objects.nonNull(user.getLatestLoginAt()) ? Timestamp.valueOf(user.getLatestLoginAt()) : null);
 
+            preparedStatement.setString(9, user.getUserId()); //where 절용 파라미터
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            log.error("user update error : ", e);
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
 
@@ -161,14 +169,14 @@ public class UserRepositoryImpl implements UserRepository {
         //todo#3-7 userId와 일치하는 회원의 count를 반환합니다.
 
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "SELECT COUNT(*) FROM users WHERE user_id = ?";
+        String sql = "SELECT COUNT(*) as count FROM users WHERE user_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, userId);
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
-                    return rs.getInt(1);
+                    return rs.getInt("count");
                 }
             }
         } catch (SQLException e) {

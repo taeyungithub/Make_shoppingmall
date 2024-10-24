@@ -42,7 +42,7 @@ public class ControllerFactory {
                 for (String path : mapping.value()) {
                     String key = getKey(mapping.method().name(), path);
                     try {
-                        Object controllerInstance = controllerClass.getDeclaredConstructor().newInstance();
+                        BaseController controllerInstance = (BaseController) controllerClass.getDeclaredConstructor().newInstance();
                         beanMap.put(key, controllerInstance);
                         log.info("Registered controller for key: {}", key);
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 @Slf4j
 public class DbConnectionThreadLocal {
     private static final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<>();
-    private static final ThreadLocal<Boolean> sqlErrorThreadLocal = ThreadLocal.withInitial(()->false);
+    private static final ThreadLocal<Boolean> sqlErrorThreadLocal = ThreadLocal.withInitial(() -> false);
 
     public static void initialize() {
 
@@ -35,44 +35,48 @@ public class DbConnectionThreadLocal {
         }
     }
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         return connectionThreadLocal.get();
     }
 
-    public static void setSqlError(boolean sqlError){
+    public static void setSqlError(boolean sqlError) {
         sqlErrorThreadLocal.set(sqlError);
     }
 
-    public static boolean getSqlError(){
+    public static boolean getSqlError() {
         return sqlErrorThreadLocal.get();
     }
 
     public static void reset() {
         Connection connection = connectionThreadLocal.get();
-        if (connection != null) {
-            try {
-                if (getSqlError()) {
-                    //todo#2-5 getSqlError() 에러가 존재하면 rollback 합니다.
-                    connection.rollback();
-                }
-                else {
-                    //todo#2-6 getSqlError() 에러가 존재하지 않다면 commit 합니다.
-                    connection.commit();
-                }
-            } catch (SQLException e) {
-                log.error("Failed commit, rollback", e);
-            } finally {
-                try {
-                    //todo#2-4 사용이 완료된 connection은 close를 호출하여 connection pool에 반환합니다.
-                    connection.close();
-                } catch (SQLException e) {
-                    log.error("Failed close", e);
-                }
 
-                //todo#2-7 현재 사용하고 있는 connection을 재사용할 수 없도록 connectionThreadLocal을 초기화 합니다.
-                connectionThreadLocal.remove();
-                sqlErrorThreadLocal.remove();
+        try {
+            //todo#2-4 사용이 완료된 connection은 close를 호출하여 connection pool에 반환합니다.
+            connection.close();
+        } catch (SQLException e) {
+            log.error("Failed close", e);
+        }
+
+
+        if (getSqlError()) {
+            //todo#2-5 getSqlError() 에러가 존재하면 rollback 합니다.
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            //todo#2-6 getSqlError() 에러가 존재하지 않다면 commit 합니다.
+            try {
+                connection.commit();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }
+
+
+        //todo#2-7 현재 사용하고 있는 connection을 재사용할 수 없도록 connectionThreadLocal을 초기화 합니다.
+        connectionThreadLocal.remove();
+
     }
 }

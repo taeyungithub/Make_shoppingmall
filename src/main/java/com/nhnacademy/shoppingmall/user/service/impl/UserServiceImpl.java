@@ -5,9 +5,10 @@ import com.nhnacademy.shoppingmall.user.exception.UserNotFoundException;
 import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
-
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -51,13 +52,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User doLogin(String userId, String userPassword) {
         //todo#4-5 로그인 구현, userId, userPassword로 일치하는 회원 조회
-
-
-        User user = userRepository.findByUserIdAndUserPassword(userId, userPassword)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-
-        userRepository.updateLatestLoginAtByUserId(userId, LocalDateTime.now());
-
+        User user = userRepository.findByUserIdAndUserPassword(userId, userPassword).orElse(null);
+        if (user == null) {
+            log.info("로그인 실패");
+            throw new UserNotFoundException(userId);
+        } else
+            userRepository.updateLatestLoginAtByUserId(userId, LocalDateTime.now());
         return user;
     }
 }

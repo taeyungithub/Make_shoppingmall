@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 @Slf4j
 @WebServlet(name = "frontServlet",urlPatterns = {"*.do"})
 public class FrontServlet extends HttpServlet {
@@ -29,7 +31,7 @@ public class FrontServlet extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp){
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             //todo#7-3 Connection pool로 부터 connection 할당 받습니다. connection은 Thread 내에서 공유됩니다.
             DbConnectionThreadLocal.initialize();
@@ -41,7 +43,7 @@ public class FrontServlet extends HttpServlet {
                 String redirectUrl = viewResolver.getRedirectUrl(viewName);
                 log.debug("redirectUrl:{}",redirectUrl);
                 //todo#7-6 redirect: 로 시작하면  해당 url로 redirect 합니다.
-                resp.sendRedirect(redirectUrl);
+                resp.sendRedirect(viewName.substring(9));
             }else {
                 String layout = viewResolver.getLayOut(viewName);
                 log.debug("viewName:{}", viewResolver.getPath(viewName));
@@ -54,6 +56,7 @@ public class FrontServlet extends HttpServlet {
             DbConnectionThreadLocal.setSqlError(true);
             //todo#7-5 예외가 발생하면 해당 예외에 대해서 적절한 처리를 합니다.
             req.setAttribute("errorMessage", e.getMessage());
+            req.getRequestDispatcher("/error.jsp").forward(req,resp);
 
         }finally {
             //todo#7-4 connection을 반납합니다.
