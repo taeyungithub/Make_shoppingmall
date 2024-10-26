@@ -26,6 +26,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     Product product = new Product(
+                            resultSet.getInt("product_id"),
                             resultSet.getInt("category_id"),
                             resultSet.getString("product_name"),
                             resultSet.getString("product_image"),
@@ -159,6 +160,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             while(rs.next()){
                 productList.add(
                         new Product(
+                                rs.getInt("product_id"),
                                 rs.getInt("category_id"),
                                 rs.getString("product_name"),
                                 rs.getString("product_image"),
