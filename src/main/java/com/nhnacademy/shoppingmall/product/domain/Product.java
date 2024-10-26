@@ -2,7 +2,7 @@ package com.nhnacademy.shoppingmall.product.domain;
 
 
 public class Product {
-    private int productId;
+    private int productId;          // mysql 자동증가
     private int categoryId;
     private String productName;
     private String productImage;
@@ -11,13 +11,23 @@ public class Product {
 
     public Product() {}
 
-    public Product(int productId, int categoryId, String productName, String productImage, long cost, String description) {
-        this.productId = productId;
+    public Product( int categoryId, String productName, String productImage, long cost, String description) {
         this.categoryId = categoryId;
         this.productName = productName;
         this.productImage = productImage;
         this.productPrice = cost;
         this.description = description;
+    }
+
+    public Product(int productId, int categoryId, String productName, String productImage, long productPrice, String description) {
+
+        this.productId = productId;
+        this.categoryId = categoryId;
+        this.productName = productName;
+        this.productImage = productImage;
+        this.productPrice = productPrice;
+        this.description = description;
+
     }
 
     public int getProductId() {

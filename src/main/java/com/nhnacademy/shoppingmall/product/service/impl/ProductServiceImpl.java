@@ -8,6 +8,7 @@ import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void saveProduct(Product product) {
-        if (getProduct(product.getProductId()) == null) {
+        if (getProduct(product.getProductId()) != null) {
             throw new ProductAlreadyExistsException(product.getProductName());
         }
         productRepository.save(product);
@@ -50,5 +51,14 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteByProductId(productId);
     }
 
+    @Override
+    public Page<Product> getProductPageList(int pageSize, int currentPage) {
+        Optional<Page<Product>> pageProducts = Optional.ofNullable(productRepository.findAll(currentPage, pageSize));
 
+        if (!pageProducts.isPresent()) {
+            throw new RuntimeException("상품들을 불러오는데 실패했습니다.");
+        }
+
+        return pageProducts.get();
+    }
 }

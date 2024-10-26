@@ -13,5 +13,7 @@ public interface ProductService {
     void updateProduct(Product product);
     void deleteProduct(int productId);
 
+    Page<Product> getProductPageList(int pageSize, int currentPage);
 
 }
+
