@@ -26,15 +26,17 @@ public class AddProductPostController implements BaseController {
         req.setAttribute("successAdd", false);
         req.setAttribute("errorAdd", false);
 
-        if (categoryID.isEmpty() || productName.isEmpty() || productPrice.isEmpty() ||
-                productImage.isEmpty() || description.isEmpty()) {
+        if (categoryID.isEmpty() || productName.isEmpty() || productPrice.isEmpty() || description.isEmpty()) {
             req.setAttribute("errorAdd", true);
             log.info("잘못입력하여 추가 실패");
             return "shop/mypage/addproductForm";
         }
 
+        if (productImage.isEmpty()) {
+            productImage = "/resources/no-image.png";
+        }
+
         log.info("product 객체 생성");
-        // Product 객체 생성
         Product product = new Product();
         product.setCategoryId(Integer.parseInt(categoryID));
         product.setProductName(productName);
@@ -47,7 +49,6 @@ public class AddProductPostController implements BaseController {
         log.info("product 객체 저장 완료");
 
         req.setAttribute("successAdd", true);
-        return "shop/mypage/admin_page";  // 상품 목록 페이지로 이동
+        return "shop/mypage/admin_page";
     }
-
 }
