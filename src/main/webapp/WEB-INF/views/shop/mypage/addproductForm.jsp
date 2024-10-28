@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label for="productImage">상품 이미지 URL:</label>
-                            <input type="url" class="form-control" id="productImage" name="productImage" placeholder="이미지 URL을 입력해주세요" required>
+                            <input type="url" class="form-control" id="productImage" name="productImage" placeholder="이미지 URL을 입력해주세요" >
                         </div>
 
                         <div class="form-group">
