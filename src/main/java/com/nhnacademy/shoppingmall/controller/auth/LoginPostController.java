@@ -28,6 +28,10 @@ public class LoginPostController implements BaseController {
         String userId = req.getParameter("user_id");
         String password = req.getParameter("user_password");
 
+        if (userId == null || password == null || userId.isEmpty() || password.isEmpty()) {
+            throw new RuntimeException();
+        }
+
         User user = userService.doLogin(userId, password);
         if (Objects.nonNull(user)) {
             HttpSession session = req.getSession(true);
