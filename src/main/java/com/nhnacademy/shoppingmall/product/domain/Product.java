@@ -8,18 +8,21 @@ public class Product {
     private String productImage;
     private long productPrice;
     private String description;
+    private int stock;
 
-    public Product() {}
+    public Product() {
+    }
 
-    public Product( int categoryId, String productName, String productImage, long cost, String description) {
+    public Product(int categoryId, String productName, String productImage, long cost, String description, int stock) {
         this.categoryId = categoryId;
         this.productName = productName;
         this.productImage = productImage;
         this.productPrice = cost;
         this.description = description;
+        this.stock = stock;
     }
 
-    public Product(int productId, int categoryId, String productName, String productImage, long productPrice, String description) {
+    public Product(int productId, int categoryId, String productName, String productImage, long productPrice, String description, int stock) {
 
         this.productId = productId;
         this.categoryId = categoryId;
@@ -27,6 +30,7 @@ public class Product {
         this.productImage = productImage;
         this.productPrice = productPrice;
         this.description = description;
+        this.stock = stock;
 
     }
 
@@ -76,6 +80,18 @@ public class Product {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = (long) productPrice;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getStock() {
+        return stock;
     }
 
 }

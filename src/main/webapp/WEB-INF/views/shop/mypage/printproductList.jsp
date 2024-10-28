@@ -28,6 +28,7 @@
                                 <th scope="col">상품 이름</th>
                                 <th scope="col">가격</th>
                                 <th scope="col">설명</th>
+                                <th scope="col">재고</th>
                                 <th scope="col">상품 수정</th>
                             </tr>
                             </thead>
@@ -39,6 +40,7 @@
                                     <td>${product.productName}</td>
                                     <td>${product.productPrice}</td>
                                     <td>${product.description}</td>
+                                    <td>${product.stock}</td>
                                     <td>
                                         <a class="btn btn-warning btn-sm" href="/mypage/updateProduct.do?productId=${product.productId}">
                                             <i class="fas fa-edit mr-1"></i>수정

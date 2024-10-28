@@ -13,6 +13,7 @@
           <p class="card-text text-muted">${requestScope.product.description}</p>
           <h3 class="text-success mt-4"><strong>${requestScope.product.productPrice}원</strong></h3>
           <p class="text-muted">상품 번호: <span>${requestScope.product.productId}</span></p>
+          <p class="text-muted">재고: <span>${requestScope.product.stock}</span></p>
 
           <div class="d-flex justify-content-end mt-4">
             <form action="/shopping/addToCart.do" method="post" class="mt-2">

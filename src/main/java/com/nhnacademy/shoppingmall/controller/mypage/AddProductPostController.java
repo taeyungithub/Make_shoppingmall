@@ -22,6 +22,7 @@ public class AddProductPostController implements BaseController {
         String productImage = req.getParameter("productImage"); // 이미지 URL
         String productPrice = req.getParameter("productPrice"); // 가격
         String description = req.getParameter("description"); // 상품 설명
+        int stock = Integer.parseInt(req.getParameter("stock"));
 
         req.setAttribute("successAdd", false);
         req.setAttribute("errorAdd", false);
@@ -43,6 +44,7 @@ public class AddProductPostController implements BaseController {
         product.setProductImage(productImage);
         product.setProductPrice(Long.parseLong(productPrice));
         product.setDescription(description);
+        product.setStock(stock);
         log.info("product 객체 생성 완료");
 
         productService.saveProduct(product);

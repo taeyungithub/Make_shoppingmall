@@ -31,7 +31,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                             resultSet.getString("product_name"),
                             resultSet.getString("product_image"),
                             resultSet.getLong("product_price"),
-                            resultSet.getString("description")
+                            resultSet.getString("description"),
+                            resultSet.getInt("stock")
                     );
                     return Optional.of(product);
                 }
@@ -58,7 +59,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                             resultSet.getString("product_name"),
                             resultSet.getString("product_image"),
                             resultSet.getLong("product_price"),
-                            resultSet.getString("description")
+                            resultSet.getString("description"),
+                            resultSet.getInt("stock")
                     );
                     products.add(product);
                 }
@@ -74,7 +76,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int save(Product product) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "INSERT INTO products (category_id, product_name, product_image, product_price, description) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO products (category_id, product_name, product_image, product_price, description, stock) VALUES (?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, product.getCategoryId());
@@ -82,6 +84,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             preparedStatement.setString(3, product.getProductImage());
             preparedStatement.setLong(4, product.getProductPrice());
             preparedStatement.setString(5, product.getDescription());
+            preparedStatement.setInt(6, product.getStock());
 
             return preparedStatement.executeUpdate();
         }catch (SQLException e) {
@@ -108,7 +111,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int update(Product product) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "UPDATE products SET category_id = ?, product_name = ?, product_image = ?, product_price = ?, description = ? WHERE product_id = ?";
+        String sql = "UPDATE products SET category_id = ?, product_name = ?, product_image = ?, product_price = ?, description = ? ,stock = ? WHERE product_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, product.getCategoryId());
@@ -116,7 +119,8 @@ public class ProductRepositoryImpl implements ProductRepository {
             preparedStatement.setString(3, product.getProductImage());
             preparedStatement.setLong(4, product.getProductPrice());
             preparedStatement.setString(5, product.getDescription());
-            preparedStatement.setInt(6, product.getProductId());
+            preparedStatement.setInt(6, product.getStock());
+            preparedStatement.setInt(7, product.getProductId());
 
             return preparedStatement.executeUpdate();
         }catch (SQLException e) {
@@ -165,7 +169,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                                 rs.getString("product_name"),
                                 rs.getString("product_image"),
                                 rs.getLong("product_price"),
-                                rs.getString("description")
+                                rs.getString("description"),
+                                rs.getInt("stock")
                         )
                 );
             }
@@ -173,7 +178,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             long total =0;
 
             if(!productList.isEmpty()){
-                // size>0 조회 시도, 0이면 조회할 필요 없음, count query는 자원을 많이 소모하는 작업
                 total = totalCount();
             }
 

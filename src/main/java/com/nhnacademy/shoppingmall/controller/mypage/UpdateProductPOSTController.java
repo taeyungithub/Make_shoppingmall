@@ -29,8 +29,9 @@ public class UpdateProductPOSTController implements BaseController {
         String productImage = req.getParameter("product_image");
         long productPrice = Long.parseLong(req.getParameter("product_price"));
         String description = req.getParameter("description");
+        int stock = Integer.parseInt(req.getParameter("stock"));
 
-        product = new Product(productId, categoryId,productName, productImage, productPrice, description);
+        product = new Product(productId, categoryId, productName, productImage, productPrice, description, stock);
         productService.updateProduct(product);
         session.setAttribute("product", product);
         log.info("상품 수정 완료");
