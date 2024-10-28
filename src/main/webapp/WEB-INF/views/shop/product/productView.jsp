@@ -17,6 +17,13 @@
 
           <div class="d-flex justify-content-end mt-4">
             <form action="/shopping/addToCart.do" method="post" class="mt-2">
+
+              <div class="form-group">
+                <label for="request_stock">구매 수량:</label>
+                <input type="number" class="form-control" id="request_stock" name="request_stock"
+                       min="1" max="${requestScope.product.stock}" value="1" required>
+              </div>
+
               <input type="hidden" name="productID" value="${requestScope.product.productId}">
               <button class="btn btn-lg btn-primary w-100" type="submit">장바구니에 담기</button>
             </form>

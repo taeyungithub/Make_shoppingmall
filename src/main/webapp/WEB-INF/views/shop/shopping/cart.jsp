@@ -29,6 +29,7 @@
                     <h5 class="card-title text-primary">${product.productName}</h5>
                     <p class="card-text text-muted">${product.description}</p>
                     <p class="card-text text-success font-weight-bold">${product.productPrice}원</p>
+                    <p class="card-text">주문 수량: ${sessionScope.quantityMap[product.productId]}</p>
                     <form action="/deleteFromCartAction.do" method="post">
                       <input type="hidden" name="productId" value="${product.productId}">
                       <button type="submit" class="btn btn-danger btn-sm mt-3">삭제</button>
