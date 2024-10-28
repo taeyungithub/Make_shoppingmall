@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(filterName = "LoginCheckFilter", urlPatterns = {"/mypage/*"})
+@WebFilter(filterName = "LoginCheckFilter", urlPatterns = {"/mypage/*","/shopping/*"})
 public class LoginCheckFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {

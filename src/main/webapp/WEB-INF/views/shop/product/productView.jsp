@@ -15,10 +15,14 @@
           <p class="text-muted">상품 번호: <span>${requestScope.product.productId}</span></p>
 
           <div class="d-flex justify-content-end mt-4">
-            <button class="btn btn-lg btn-primary w-100" type="submit">구매하기</button>
+            <form action="/shopping/addToCart.do" method="post" class="mt-2">
+              <input type="hidden" name="productID" value="${requestScope.product.productId}">
+              <button class="btn btn-lg btn-primary w-100" type="submit">장바구니에 담기</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
