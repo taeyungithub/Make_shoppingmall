@@ -29,7 +29,16 @@
                             <strong>가입일:</strong> ${cfmt:formatDate(sessionScope.user.createdAt, 'yyyy-MM-dd')}
                         </div>
                         <div class="col-md-6 mx-auto mb-3">
-                            <strong>최근 접속일:</strong> ${cfmt:formatDate(sessionScope.user.latestLoginAt, 'yyyy-MM-dd HH:mm:ss')}
+                            <strong>최근 접속일:</strong>
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.user.latestLoginAt}">
+                                    ${cfmt:formatDate(sessionScope.user.latestLoginAt, 'yyyy-MM-dd HH:mm:ss')}
+                                </c:when>
+                                <c:otherwise>
+                                    최근 접속일 없음
+                                </c:otherwise>
+                            </c:choose>
+
                         </div>
                     </div>
                     <div class="text-center">
