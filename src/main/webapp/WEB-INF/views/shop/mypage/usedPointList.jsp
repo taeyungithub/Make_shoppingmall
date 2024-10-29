@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cfmt" uri="http://nhnacademy.com/cfmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,7 +13,7 @@
   <h2 class="mb-4">사용 포인트 내역 / 주문내역 </h2>
 
   <c:choose>
-    <c:when test="${not empty sessionScope.userOrders}">
+    <c:when test="${not empty requestScope.orders}">
       <table class="table table-bordered table-hover">
         <thead class="thead-light">
         <tr>
@@ -23,14 +24,15 @@
           <th scope="col">주문 날짜</th>
         </tr>
         </thead>
+
         <tbody>
-        <c:forEach var="order" items="${sessionScope.userOrders}">
+        <c:forEach var="order" items="${requestScope.orders}">
           <tr class="text-center">
             <td>${order.orderId}</td>
-            <td>${order.OrderedproductId}</td>
+            <td>${order.orderedproductId}</td>
             <td>${order.quantity}</td>
             <td>${order.totalPrice}원</td>
-            <td>${order.orderDate}</td>
+            <td>${cfmt:formatDate(order.orderDate,'yyyy-MM-dd HH:mm:ss')}</td>
           </tr>
         </c:forEach>
         </tbody>

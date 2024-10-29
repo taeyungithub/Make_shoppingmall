@@ -6,6 +6,8 @@ import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
 import com.nhnacademy.shoppingmall.order.domain.Order;
 import com.nhnacademy.shoppingmall.order.repository.Impl.OrderRepositoryImpl;
 import com.nhnacademy.shoppingmall.order.repository.OrderRepository;
+import com.nhnacademy.shoppingmall.order.service.Impl.OrderServiceImpl;
+import com.nhnacademy.shoppingmall.order.service.OrderService;
 import com.nhnacademy.shoppingmall.product.domain.Product;
 import com.nhnacademy.shoppingmall.product.repository.impl.ProductRepositoryImpl;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
@@ -29,7 +31,7 @@ import java.util.Map;
 public class OrderController implements BaseController {
     private final ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
     private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
-    private final OrderRepository orderService = new OrderRepositoryImpl();
+    private final OrderService orderService = new OrderServiceImpl(new OrderRepositoryImpl());
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -65,7 +67,7 @@ public class OrderController implements BaseController {
 
             // 주문 생성 및 저장
             Order order = new Order(user.getUserId(), productId, quantity);
-            orderService.save(order);
+            orderService.placeOrder(order);
 
             // 재고 및 사용자 포인트 업데이트
             product.setStock(product.getStock() - quantity);
