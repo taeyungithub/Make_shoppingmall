@@ -30,7 +30,25 @@
                     <p class="card-text text-muted">${product.description}</p>
                     <p class="card-text text-success font-weight-bold">${product.productPrice}원</p>
                     <p class="card-text">주문 수량: ${sessionScope.quantityMap[product.productId]}</p>
-                    <form action="/deleteFromCartAction.do" method="post">
+
+                    <!-- 수량 증가 폼 -->
+                    <form action="/updateQuantityAction.do" method="post" style="display:inline;">
+                      <input type="hidden" name="productId" value="${product.productId}">
+                      <input type="hidden" name="action" value="increase">
+                      <button type="submit" class="btn btn-outline-secondary btn-sm"
+                              <c:if test="${sessionScope.quantityMap[product.productId] >= sessionScope.stockMap[product.productId]}">disabled</c:if>>+</button>
+                    </form>
+
+                    <!-- 수량 감소 폼 -->
+                    <form action="/updateQuantityAction.do" method="post" style="display:inline;">
+                      <input type="hidden" name="productId" value="${product.productId}">
+                      <input type="hidden" name="action" value="decrease">
+                      <button type="submit" class="btn btn-outline-secondary btn-sm"
+                              <c:if test="${sessionScope.quantityMap[product.productId] == 1}">disabled</c:if>>-</button>
+                    </form>
+
+                    <!-- 삭제 버튼 -->
+                    <form action="/deleteFromCartAction.do" method="post" style="display:inline;">
                       <input type="hidden" name="productId" value="${product.productId}">
                       <button type="submit" class="btn btn-danger btn-sm mt-3">삭제</button>
                     </form>
@@ -49,6 +67,12 @@
     </c:otherwise>
   </c:choose>
 </div>
+
+<form action="/orderAction.do" method="post">
+  <input type="hidden" name="" value="${sessionScope.quantityMap}">
+  <button type="submit" class="btn btn-primary btn-sm mt-3">주문</button>
+</form>
+
 
 <!-- Bootstrap JS 및 jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

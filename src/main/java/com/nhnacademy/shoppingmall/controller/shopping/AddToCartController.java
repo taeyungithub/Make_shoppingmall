@@ -24,34 +24,52 @@ public class AddToCartController implements BaseController {
         int requestStock = Integer.parseInt(req.getParameter("request_stock")); // 주문 수량
 
         Product product = productService.getProduct(productId);
-        if (product.getStock() < requestStock) {
-            log.error("장바구니 추가 실패: 요청한 수량이 재고보다 많습니다.");
+        if (product == null) {
+            log.error("상품을 찾을 수 없습니다. ID: {}", productId);
             return "redirect:/";
         }
 
         HttpSession session = req.getSession();
 
-        // 장바구니 리스트 가져오기
+        // 장바구니 리스트 가져오기 또는 초기화
         List<Product> cart = (List<Product>) session.getAttribute("cart");
         if (cart == null) {
             cart = new LinkedList<>();
             session.setAttribute("cart", cart);
         }
 
-        // 수량 맵 가져오기 또는 생성
+        // 수량 맵 가져오기 또는 초기화
         Map<Integer, Integer> quantityMap = (Map<Integer, Integer>) session.getAttribute("quantityMap");
         if (quantityMap == null) {
             quantityMap = new HashMap<>();
             session.setAttribute("quantityMap", quantityMap);
         }
 
-        // 상품 수량 및 장바구니 추가
-        product.setStock(product.getStock() - requestStock); // 재고 감소
-        productService.updateProduct(product);
-        quantityMap.put(productId, requestStock); // 수량 저장
-        cart.add(product);
+        // 세션에 저장된 stockMap 가져오기 또는 초기화
+        Map<Integer, Integer> stockMap = (Map<Integer, Integer>) session.getAttribute("stockMap");
+        if (stockMap == null) {
+            stockMap = new HashMap<>();
+            session.setAttribute("stockMap", stockMap);
+        }
 
-        log.info("장바구니에 추가 완료: 제품 ID={}, 수량={}", productId, requestStock);
+        // 현재 장바구니에 있는 수량을 확인하고 총 수량 확인
+        int currentQuantity = quantityMap.getOrDefault(productId, 0);
+        int availableStock = stockMap.getOrDefault(productId, product.getStock());
+
+        // 재고가 허용하는 최대 수량까지만 요청 수량을 증가시키기
+        int totalRequestedQuantity = Math.min(currentQuantity + requestStock, availableStock);
+
+        // 장바구니에 이미 있는 상품인지 확인 후 추가
+        if (!cart.contains(product)) {
+            cart.add(product); // 장바구니에 상품 추가 (처음 추가하는 경우)
+        }
+
+        // 수량 맵 및 세션 내의 재고 맵 업데이트
+        quantityMap.put(productId, totalRequestedQuantity);
+        stockMap.put(productId, availableStock); // 재고 업데이트는 주문 시에만 적용
+
+        log.info("장바구니에 추가 완료: 제품 ID={}, 요청 수량={}, 현재 재고={}", productId, totalRequestedQuantity, availableStock);
+
 
         return "redirect:/shopping/cart.do";
     }

@@ -38,7 +38,7 @@ public class LoginPostController implements BaseController {
             session.setMaxInactiveInterval(60 * 60);
             session.setAttribute("user", user);
             log.debug("user :{}", user);
-            return "shop/main/index";
+            return "redirect:/";
         }
         return "shop/login/login_form";
     }
