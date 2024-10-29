@@ -52,6 +52,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> searchProductsByName(String productName) {
+        return productRepository.findByName(productName);
+    }
+
+    @Override
     public Page<Product> getProductPageList(int pageSize, int currentPage) {
         Optional<Page<Product>> pageProducts = Optional.ofNullable(productRepository.findAll(currentPage, pageSize));
 

@@ -36,10 +36,11 @@
                     <li><a href="/shopping/cart.do" class="nav-link px-2 text-white">장바구니</a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control form-control-dark" placeholder="Search..."
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/search.do" method="get">
+                    <input type="search" name="query" class="form-control form-control-dark" placeholder="Search..."
                            aria-label="Search">
                 </form>
+
 
                 <div class="text-end">
                     <c:choose>

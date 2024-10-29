@@ -130,6 +130,36 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public List<Product> findByName(String productName) {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = "SELECT * FROM products WHERE product_name LIKE ?";
+        List<Product> productList = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + productName + "%");
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    productList.add(new Product(
+                            rs.getInt("product_id"),
+                            rs.getInt("category_id"),
+                            rs.getString("product_name"),
+                            rs.getString("product_image"),
+                            rs.getLong("product_price"),
+                            rs.getString("description"),
+                            rs.getInt("stock")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("상품 검색 실패", e);
+        }
+
+        return productList;
+    }
+
+
+    @Override
     public long totalCount() {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT count(*) FROM products";
