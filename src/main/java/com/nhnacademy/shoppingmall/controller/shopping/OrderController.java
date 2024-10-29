@@ -2,7 +2,6 @@ package com.nhnacademy.shoppingmall.controller.shopping;
 
 import com.nhnacademy.shoppingmall.common.mvc.annotation.RequestMapping;
 import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
-import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLocal;
 import com.nhnacademy.shoppingmall.order.domain.Order;
 import com.nhnacademy.shoppingmall.order.repository.OrderRepository;
 import com.nhnacademy.shoppingmall.order.repository.impl.OrderRepositoryImpl;
@@ -10,16 +9,18 @@ import com.nhnacademy.shoppingmall.product.domain.Product;
 import com.nhnacademy.shoppingmall.product.repository.impl.ProductRepositoryImpl;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import com.nhnacademy.shoppingmall.product.service.impl.ProductServiceImpl;
+import com.nhnacademy.shoppingmall.thread.channel.RequestChannel;
+import com.nhnacademy.shoppingmall.thread.request.impl.PointChannelRequest;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
 import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 @Slf4j
@@ -35,7 +36,6 @@ public class OrderController implements BaseController {
         User user = (User) session.getAttribute("user");
         log.info("user = {}", user);
 
-        // 세션에서 장바구니 데이터 가져오기
         Map<Integer, Integer> quantityMap = (Map<Integer, Integer>) session.getAttribute("quantityMap");
         log.info("quantityMap = {}", quantityMap);
 
@@ -44,7 +44,8 @@ public class OrderController implements BaseController {
             return "redirect:/shopping/cart.do";
         }
 
-        // 주문 처리
+        long totalOrderPrice = 0; // 총 주문 금액
+
         for (Map.Entry<Integer, Integer> entry : quantityMap.entrySet()) {
             int productId = entry.getKey();
             int quantity = entry.getValue();
@@ -63,7 +64,6 @@ public class OrderController implements BaseController {
 
             // 주문 생성 및 저장
             Order order = new Order(user.getUserId(), productId, quantity);
-            log.info("order = {}", order);
             orderRepository.save(order);
 
             // 재고 및 사용자 포인트 업데이트
@@ -72,30 +72,24 @@ public class OrderController implements BaseController {
             user.setUserPoint(user.getUserPoint() - (int) totalPrice);
             userService.updateUser(user);
 
-            // 포인트 적립 비동기 처리
-            new Thread(() -> {
-                DbConnectionThreadLocal.initialize(); // 스레드 로컬 트랜잭션 초기화
-                try {
-                    int earnedPoints = (int) (totalPrice * 0.1);
-                    user.setUserPoint(user.getUserPoint() + earnedPoints);
-                    userService.updateUser(user);
-                    log.info("포인트 적립 완료: {} 포인트 적립", earnedPoints);
-                    DbConnectionThreadLocal.getConnection().commit(); // 커밋
-                } catch (Exception e) {
-                    try {
-                        DbConnectionThreadLocal.getConnection().rollback(); // 오류 시 롤백
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    log.error("포인트 적립 실패: {}", e.getMessage(), e);
-                } finally {
-                    DbConnectionThreadLocal.reset(); // 트랜잭션 정리
-                }
-            }).start();
+            totalOrderPrice += totalPrice; // 총 주문 금액 누적
         }
 
-        // 주문 완료 후 장바구니 초기화
         session.removeAttribute("quantityMap");
+
+        // 총 주문 금액의 10% 포인트 적립
+        int pointsToAdd = (int) (totalOrderPrice * 0.1);
+
+        // 포인트 적립 요청 생성 및 큐에 추가
+        ServletContext context = req.getServletContext();
+        RequestChannel requestChannel = (RequestChannel) context.getAttribute("requestChannel");
+        PointChannelRequest pointRequest = new PointChannelRequest(user, pointsToAdd);
+
+        try {
+            requestChannel.addRequest(pointRequest);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         return "redirect:/";
     }

@@ -41,9 +41,13 @@
 
                         </div>
                     </div>
-                    <div class="text-center">
-                        <a class="btn btn-warning mt-3" href="/mypage/update.do">정보 수정</a>
+                    <div class="d-flex justify-content-center gap-3 mt-3">
+                        <a class="btn btn-warning" href="/mypage/update.do">정보 수정</a>
+                        <a class="btn btn-warning" href="/mypage/update.do">주문 목록</a>
+                        <a class="btn btn-warning" href="/mypage/update.do">포인트 사용이력</a>
+                        <a class="btn btn-warning" href="/mypage/update.do">회원 삭제</a>
                     </div>
+
                 </div>
             </div>
         </div>
