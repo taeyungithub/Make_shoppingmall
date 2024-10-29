@@ -75,7 +75,7 @@ public class OrderController implements BaseController {
             totalOrderPrice += totalPrice; // 총 주문 금액 누적
         }
 
-        session.removeAttribute("quantityMap");
+
 
         // 총 주문 금액의 10% 포인트 적립
         int pointsToAdd = (int) (totalOrderPrice * 0.1);
@@ -90,6 +90,9 @@ public class OrderController implements BaseController {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        session.removeAttribute("quantityMap");
+        session.removeAttribute("cart");
+
 
         return "redirect:/";
     }

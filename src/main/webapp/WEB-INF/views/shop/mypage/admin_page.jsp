@@ -20,7 +20,7 @@
                         <a class="nav-link text-dark" href="/mypage/deleteProduct.do">상품 삭제</a>
                     </li>
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="#">주문 관리</a>
+                        <a class="nav-link text-dark" href="/mypage/adminOrderList.do">주문 관리</a>
                     </li>
                 </ul>
             </div>

@@ -43,9 +43,16 @@
                     </div>
                     <div class="d-flex justify-content-center gap-3 mt-3">
                         <a class="btn btn-warning" href="/mypage/update.do">정보 수정</a>
-                        <a class="btn btn-warning" href="/mypage/update.do">주문 목록</a>
-                        <a class="btn btn-warning" href="/mypage/update.do">포인트 사용이력</a>
-                        <a class="btn btn-warning" href="/mypage/update.do">회원 삭제</a>
+                        <a class="btn btn-warning" href="/mypage/orderList.do">주문 목록</a>
+                        <a class="btn btn-warning" href="/mypage/usedPointList.do">포인트 사용이력</a>
+
+                        <form method="post" action="/mypage/deleteUser.do">
+                            <div class="form-group">
+                                <input type="hidden" name="userId" value="${sessionScope.user.userId}">
+                            </div>
+                            <button type="submit" class="btn btn-danger">회원 삭제</button>
+                        </form>
+
                     </div>
 
                 </div>
