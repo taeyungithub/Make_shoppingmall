@@ -1,9 +1,10 @@
-package com.nhnacademy.shoppingmall.order.repository.impl;
+package com.nhnacademy.shoppingmall.order.repository.Impl;
 
 import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLocal;
 import com.nhnacademy.shoppingmall.common.page.Page;
 import com.nhnacademy.shoppingmall.order.domain.Order;
 import com.nhnacademy.shoppingmall.order.repository.OrderRepository;
+import com.nhnacademy.shoppingmall.product.domain.Product;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -37,6 +38,37 @@ public class OrderRepositoryImpl implements OrderRepository {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Order> findByUserId(String userId) {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = "SELECT * FROM orders WHERE user_id = ?";
+
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+            psmt.setString(1, userId);
+            List<Order> orders = new ArrayList<>();
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                while (rs.next()) {
+                    Order order = new Order(
+                            rs.getString("user_id"),
+                            rs.getInt("product_id"),
+                            rs.getInt("quantity")
+                    );
+                    order.setOrderId(rs.getInt("order_id"));
+                    order.setTotalPrice(rs.getLong("total_price"));
+                    order.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
+
+                    orders.add(order);
+                }
+            }
+            return orders;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return List.of();
     }
 
     @Override

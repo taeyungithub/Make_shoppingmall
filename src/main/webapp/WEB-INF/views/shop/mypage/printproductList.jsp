@@ -42,10 +42,10 @@
                                     <td>${product.description}</td>
                                     <td>${product.stock}</td>
                                     <td>
-                                        <a class="btn btn-warning btn-sm" href="/mypage/updateProduct.do?productId=${product.productId}">
+                                        <a class="btn btn-warning btn-sm"
+                                           href="/mypage/updateProduct.do?productId=${product.productId}">
                                             <i class="fas fa-edit mr-1"></i>수정
                                         </a>
-
                                     </td>
                                 </tr>
                             </c:forEach>
