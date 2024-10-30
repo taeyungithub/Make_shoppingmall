@@ -46,9 +46,6 @@ public class deleteFromOrderController implements BaseController {
         userService.updateUser(user);
         log.info("포인트 복구완료");
 
-        HttpSession session = req.getSession();
-        session.setAttribute("user", user);
-
         return "redirect:/mypage/mypage.do";
     }
 }

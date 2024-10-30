@@ -44,6 +44,8 @@
                     <div class="d-flex justify-content-center gap-3 mt-3">
                         <a class="btn btn-warning" href="/mypage/update.do">정보 수정</a>
 
+                        <a class="btn btn-warning" href="/addressPage.do">주소 관리</a>
+
 <%--                        <a class="btn btn-warning" href="/mypage/usedPointList.do">포인트 사용이력</a>--%>
                         <form method="get" action="/mypage/usedPointList.do">
                             <div class="form-group">
