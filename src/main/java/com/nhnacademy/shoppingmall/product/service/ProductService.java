@@ -21,5 +21,8 @@ public interface ProductService {
 
     Page<Product> getProductPageList(int pageSize, int currentPage);
 
+    List<Product> findByCategoryId(int categoryId);
+
+    Page<Product> getProductPageListByCategory(int pageSize, int currentPage, int categoryId);
 }
 

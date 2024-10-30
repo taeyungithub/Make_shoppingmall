@@ -66,4 +66,14 @@ public class ProductServiceImpl implements ProductService {
 
         return pageProducts.get();
     }
+
+    @Override
+    public List<Product> findByCategoryId(int categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+
+    @Override
+    public Page<Product> getProductPageListByCategory(int pageSize, int currentPage, int categoryId) {
+        return productRepository.findAllByCategory(categoryId, currentPage, pageSize);
+    }
 }

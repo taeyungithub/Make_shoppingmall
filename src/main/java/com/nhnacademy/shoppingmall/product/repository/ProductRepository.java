@@ -24,4 +24,8 @@ public interface ProductRepository {
     long totalCount();     //totalCount 전체 row 갯수를 구합니다.
 
     Page<Product> findAll(int page, int pageSize);   //페이징처리된 결과를 반환 합니다.
+
+    List<Product> findByCategoryId(int categoryId);  // 추가된 메서드: 카테고리 ID로 검색
+
+    Page<Product> findAllByCategory(int categoryId, int page, int pageSize);
 }

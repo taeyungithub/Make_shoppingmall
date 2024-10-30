@@ -8,10 +8,19 @@
 <%
     int pageSize = 9;
     int currentPage = 1;
+    int categoryId = request.getParameter("categoryId") != null ? Integer.parseInt(request.getParameter("categoryId")) : 0;
     if (request.getParameter("currentPage") != null) {
         currentPage = Integer.parseInt(request.getParameter("currentPage"));
     }
-    Page<Product> pageProducts = new ProductServiceImpl(new ProductRepositoryImpl()).getProductPageList(pageSize, currentPage);
+
+    ProductServiceImpl productService = new ProductServiceImpl(new ProductRepositoryImpl());
+    Page<Product> pageProducts;
+    if (categoryId > 0) {
+        pageProducts = productService.getProductPageListByCategory(pageSize, currentPage, categoryId);
+    } else {
+        pageProducts = productService.getProductPageList(pageSize, currentPage);
+    }
+
     long totalCount = pageProducts.getTotalCount();
     long totalPage = (totalCount + pageSize - 1) / pageSize;
 
@@ -19,7 +28,16 @@
     long endPage = Math.min(totalPage, beginPage + pageSize - 1);
 %>
 
-<div class="container mt-4 d-flex">
+<div class="container mt-4">
+    <!-- 카테고리 버튼 -->
+    <div class="mb-4 text-center">
+        <a href="?categoryId=1" class="btn <%= categoryId == 1 ? "btn-primary" : "btn-outline-primary" %>">의류/잡화</a>
+        <a href="?categoryId=2" class="btn <%= categoryId == 2 ? "btn-primary" : "btn-outline-primary" %>">뷰티</a>
+        <a href="?categoryId=3" class="btn <%= categoryId == 3 ? "btn-primary" : "btn-outline-primary" %>">식품</a>
+        <a href="?categoryId=4" class="btn <%= categoryId == 4 ? "btn-primary" : "btn-outline-primary" %>">주방/생활용품</a>
+        <a href="?categoryId=5" class="btn <%= categoryId == 5 ? "btn-primary" : "btn-outline-primary" %>">가전디지털</a>
+    </div>
+
     <!-- 메인 상품 목록 -->
     <div class="product-list w-75">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -47,7 +65,7 @@
             <ul class="pagination">
                 <% for (int i = beginPage; i <= endPage; i++) { %>
                 <li class="page-item <%= currentPage == i ? "active" : "" %>">
-                    <a class="page-link" href="?currentPage=<%= i %>"><%= i %></a>
+                    <a class="page-link" href="?currentPage=<%= i %>&categoryId=<%= categoryId %>"><%= i %></a>
                 </li>
                 <% } %>
             </ul>
