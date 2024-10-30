@@ -8,6 +8,8 @@ import com.nhnacademy.shoppingmall.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -61,5 +63,10 @@ public class UserServiceImpl implements UserService {
             userRepository.updateLatestLoginAtByUserId(userId, LocalDateTime.now());
         log.debug("로그인 성공");
         return user;
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 }

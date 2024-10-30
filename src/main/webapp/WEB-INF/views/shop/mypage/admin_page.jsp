@@ -11,7 +11,7 @@
                 </div>
                 <ul class="nav flex-column list-group list-group-flush">
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="/mypage/productList.do">회원 관리</a>
+                        <a class="nav-link text-dark" href="/mypage/userList.do">회원 관리</a>
                     </li>
                     <li class="nav-item list-group-item">
                         <a class="nav-link text-dark" href="/mypage/productList.do">상품 목록</a>

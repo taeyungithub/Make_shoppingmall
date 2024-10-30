@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -48,6 +50,34 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.empty();
     }
 
+    @Override
+    public List<User> findAll() {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = "SELECT user_id, user_name, user_password, user_birth, user_auth, user_point, created_at, latest_login_at FROM users";
+
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
+            try (ResultSet rs = psmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getString("user_id"),
+                            rs.getString("user_name"),
+                            rs.getString("user_password"),
+                            rs.getString("user_birth"),
+                            User.Auth.valueOf(rs.getString("user_auth")),
+                            rs.getInt("user_point"),
+                            rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toLocalDateTime() : null,
+                            rs.getTimestamp("latest_login_at") != null ? rs.getTimestamp("latest_login_at").toLocalDateTime() : null
+                    );
+                    users.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error during findAll execution", e);
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
     @Override
     public Optional<User> findById(String userId) {
         //todo#3-2 회원조회
