@@ -65,8 +65,13 @@ public class OrderController implements BaseController {
                 continue;
             }
 
+            int addressId = Integer.parseInt(req.getParameter("addressId"));
+            log.info("addressId = {}", addressId);
+
             // 주문 생성 및 저장
-            Order order = new Order(user.getUserId(), productId, quantity);
+            Order order = new Order(user.getUserId(), productId, quantity,addressId);
+            log.info("order = {}", order);
+            log.info(String.valueOf(order.getAddressId()));
             orderService.placeOrder(order);
 
             // 재고 및 사용자 포인트 업데이트

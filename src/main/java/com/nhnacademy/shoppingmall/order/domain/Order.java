@@ -16,14 +16,16 @@ public class Order {
     private int quantity;           // 주문 수량
     private long totalPrice;        // 총 주문 가격
     private LocalDateTime orderDate;// 주문 날짜
-
+    private int addressId;
     // 주문 생성자
-    public Order(String userId, int productId, int quantity) {
+
+    public Order(String userId, int productId, int quantity,int addressId) {
         this.OrdereduserId = userId;
         this.OrderedproductId = productId;
         this.quantity = quantity;
         this.totalPrice = totalPrice(productId);
         this.orderDate = LocalDateTime.now();
+        this.addressId = addressId;
     }
 
     public long totalPrice(int productId) {
@@ -33,6 +35,10 @@ public class Order {
 
 
         return price * quantity;
+    }
+
+    public int getAddressId() {
+        return addressId;
     }
 
     public int getOrderedproductId() {
@@ -81,5 +87,9 @@ public class Order {
 
     public void setOrderedproductId(int orderedproductId) {
         OrderedproductId = orderedproductId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 }

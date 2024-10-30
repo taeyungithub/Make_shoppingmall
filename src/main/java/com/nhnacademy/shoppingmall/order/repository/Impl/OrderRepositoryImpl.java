@@ -26,7 +26,8 @@ public class OrderRepositoryImpl implements OrderRepository {
                     Order order = new Order(
                             rs.getString("user_id"),
                             rs.getInt("product_id"),
-                            rs.getInt("quantity")
+                            rs.getInt("quantity"),
+                            rs.getInt("address_id")
                     );
                     order.setOrderId(rs.getInt("order_id"));
                     order.setTotalPrice(rs.getLong("total_price"));
@@ -54,7 +55,8 @@ public class OrderRepositoryImpl implements OrderRepository {
                     Order order = new Order(
                             rs.getString("user_id"),
                             rs.getInt("product_id"),
-                            rs.getInt("quantity")
+                            rs.getInt("quantity"),
+                            rs.getInt("address_id")
                     );
                     order.setOrderId(rs.getInt("order_id"));
                     order.setTotalPrice(rs.getLong("total_price"));
@@ -83,7 +85,8 @@ public class OrderRepositoryImpl implements OrderRepository {
                     Order order = new Order(
                             rs.getString("user_id"),
                             rs.getInt("product_id"),
-                            rs.getInt("quantity")
+                            rs.getInt("quantity"),
+                            rs.getInt("address_id")
                     );
                     order.setOrderId(rs.getInt("order_id"));
                     order.setTotalPrice(rs.getLong("total_price"));
@@ -101,7 +104,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public int save(Order order) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "INSERT INTO orders (user_id, product_id, quantity, total_price, order_date) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (user_id, product_id, quantity, total_price, order_date, address_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement psmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             psmt.setString(1, order.getOrdereduserId());
@@ -109,6 +112,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             psmt.setInt(3, order.getQuantity());
             psmt.setLong(4, order.getTotalPrice());
             psmt.setTimestamp(5, Timestamp.valueOf(order.getOrderDate()));
+            psmt.setInt(6, order.getAddressId()); // 추가된 address_id 값 설정
 
             int affectedRows = psmt.executeUpdate();
             if (affectedRows > 0) {
@@ -124,6 +128,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         return 0;
     }
+
 
     @Override
     public int deleteByOrderId(int orderId) {

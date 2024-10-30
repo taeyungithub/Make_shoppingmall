@@ -7,8 +7,12 @@ import java.util.Optional;
 
 public interface AddressService {
     Optional<Address> getAddressById(int addressId);
+
     List<Address> getAddressesByUserId(String userId);
+
     void addAddress(Address address);
+
     void deleteAddress(int addressId);
+
     void updateAddress(Address address);
 }

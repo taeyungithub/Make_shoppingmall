@@ -10,10 +10,10 @@
 </head>
 <body class="bg-light">
 <div class="container mt-5">
-    <h2 class="mb-4">사용 포인트 내역 / 주문내역 </h2>
+    <h2 class="mb-4">사용 포인트 내역 / 주문내역</h2>
 
     <c:choose>
-        <c:when test="${not empty requestScope.orders}">
+        <c:when test="${not empty orderAddressMap}">
             <table class="table table-bordered table-hover">
                 <thead class="thead-light">
                 <tr>
@@ -22,23 +22,22 @@
                     <th scope="col">수량</th>
                     <th scope="col">총 가격</th>
                     <th scope="col">주문 날짜</th>
+                    <th scope="col">주소</th>
                     <th scope="col">주문 삭제</th>
                 </tr>
                 </thead>
-
                 <tbody>
-                <c:forEach var="order" items="${requestScope.orders}">
+                <c:forEach var="entry" items="${orderAddressMap}">
                     <tr class="text-center">
-                        <td>${order.orderId}</td>
-                        <td>${order.orderedproductId}</td>
-                        <td>${order.quantity}</td>
-                        <td>${order.totalPrice}원</td>
-                        <td>${cfmt:formatDate(order.orderDate,'yyyy-MM-dd HH:mm:ss')}</td>
+                        <td>${entry.key.orderId}</td>
+                        <td>${entry.key.orderedproductId}</td>
+                        <td>${entry.key.quantity}</td>
+                        <td>${entry.key.totalPrice}원</td>
+                        <td>${cfmt:formatDate(entry.key.orderDate,'yyyy-MM-dd HH:mm:ss')}</td>
+                        <td>${entry.value.address}</td>
                         <td>
                             <form method="post" action="/mypage/orderDeleteAction.do">
-                                <div class="form-group">
-                                    <input type="hidden" name="orderId" value="${order.orderId}">
-                                </div>
+                                <input type="hidden" name="orderId" value="${entry.key.orderId}">
                                 <button type="submit" class="btn btn-danger">삭제</button>
                             </form>
                         </td>

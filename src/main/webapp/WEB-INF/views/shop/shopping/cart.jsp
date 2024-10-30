@@ -68,8 +68,16 @@
   </c:choose>
 </div>
 
+
 <form action="/orderAction.do" method="post">
-  <input type="hidden" name="" value="${sessionScope.quantityMap}">
+  <div class="mt-4">
+    <h4>배송지 선택</h4>
+    <select name="addressId" class="form-control" required>
+      <c:forEach var="address" items="${sessionScope.addresses}">
+        <option value="${address.addressId}">${address.address}</option>
+      </c:forEach>
+    </select>
+  </div>
   <button type="submit" class="btn btn-primary btn-sm mt-3">주문</button>
 </form>
 

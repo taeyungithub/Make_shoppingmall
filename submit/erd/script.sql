@@ -48,7 +48,10 @@ CREATE TABLE `orders`
     `order_date`  DATETIME NULL COMMENT '주문 날짜',
     `user_id`     VARCHAR(50) NOT NULL COMMENT '아이디',
     `product_id`  INT         NOT NULL COMMENT '상품 아이디',
+    address_id    INT,
+
     CONSTRAINT `PK_ORDERS` PRIMARY KEY (`order_Id`),
     CONSTRAINT `FK_ORDERS_USER` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
     CONSTRAINT `FK_ORDERS_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
+    FOREIGN KEY (address_id) REFERENCES addresses(address_id) ON DELETE SET NULL
 );
