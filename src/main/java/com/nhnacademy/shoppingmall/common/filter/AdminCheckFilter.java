@@ -24,7 +24,9 @@ public class AdminCheckFilter extends HttpFilter {
         User.Auth auth = (user != null) ? user.getUserAuth() : null;
 
         if (auth != User.Auth.ROLE_ADMIN) {
-            res.sendError(HttpServletResponse.SC_FORBIDDEN);
+            req.setAttribute("errorMessage", "403 Forbidden: 관리자만 접근 가능합니다.");
+            res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            req.getRequestDispatcher("/error.do").forward(req, res);
             return;
         }
 
