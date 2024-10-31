@@ -21,7 +21,7 @@
                     <h3 class="card-title mb-0">상품 삭제</h3>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="/mypage/deleteProductAction.do">
+                    <form method="post" action="/admin/mypage/deleteProductAction.do">
                         <div class="form-group">
                             <label for="productID">상품 ID:</label>
                             <input type="text" class="form-control" id="productID" name="productID"

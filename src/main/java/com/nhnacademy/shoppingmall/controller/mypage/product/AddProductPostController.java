@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.POST, value = "/mypage/addProductAction.do")
+@RequestMapping(method = RequestMapping.Method.POST, value = "/admin/mypage/addProductAction.do")
 public class AddProductPostController implements BaseController {
     ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
 

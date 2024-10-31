@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.GET, value = "/mypage/userList.do")
+@RequestMapping(method = RequestMapping.Method.GET, value = "/admin/mypage/userList.do")
 public class UserListController implements BaseController {
     private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
 

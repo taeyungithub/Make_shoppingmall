@@ -11,19 +11,19 @@
                 </div>
                 <ul class="nav flex-column list-group list-group-flush">
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="/mypage/userList.do">회원 관리</a>
+                        <a class="nav-link text-dark" href="/admin/mypage/userList.do">회원 관리</a>
                     </li>
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="/mypage/productList.do">상품 목록</a>
+                        <a class="nav-link text-dark" href="/admin/mypage/productList.do">상품 목록</a>
                     </li>
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="/mypage/addProduct.do">상품 추가</a>
+                        <a class="nav-link text-dark" href="/admin/mypage/addProduct.do">상품 추가</a>
                     </li>
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="/mypage/deleteProduct.do">상품 삭제</a>
+                        <a class="nav-link text-dark" href="/admin/mypage/deleteProduct.do">상품 삭제</a>
                     </li>
                     <li class="nav-item list-group-item">
-                        <a class="nav-link text-dark" href="/mypage/adminOrderList.do">주문 관리</a>
+                        <a class="nav-link text-dark" href="/admin/mypage/adminOrderList.do">주문 관리</a>
                     </li>
                 </ul>
             </div>

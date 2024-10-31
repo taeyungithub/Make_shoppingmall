@@ -36,7 +36,7 @@
                         <td>${cfmt:formatDate(entry.key.orderDate,'yyyy-MM-dd HH:mm:ss')}</td>
                         <td>${entry.value.address}</td>
                         <td>
-                            <form method="post" action="/mypage/orderDeleteAction.do">
+                            <form method="post" action="/admin/mypage/orderDeleteAction.do">
                                 <input type="hidden" name="orderId" value="${entry.key.orderId}">
                                 <button type="submit" class="btn btn-danger">삭제</button>
                             </form>

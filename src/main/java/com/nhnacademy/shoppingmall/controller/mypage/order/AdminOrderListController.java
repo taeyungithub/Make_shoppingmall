@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.GET,value = "/mypage/adminOrderList.do")
+@RequestMapping(method = RequestMapping.Method.GET,value = "/admin/mypage/adminOrderList.do")
 public class AdminOrderListController implements BaseController {
 
     OrderService orderService = new OrderServiceImpl(new OrderRepositoryImpl());

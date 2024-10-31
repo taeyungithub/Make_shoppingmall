@@ -37,7 +37,7 @@
                         <td>${order.totalPrice}원</td>
                         <td>${cfmt:formatDate(order.orderDate,'yyyy-MM-dd HH:mm:ss')}</td>
                         <td>
-                            <form method="post" action="/mypage/orderDeleteAction.do">
+                            <form method="post" action="/admin/mypage/orderDeleteAction.do">
                                 <div class="form-group">
                                     <input type="hidden" name="orderId" value="${order.orderId}">
                                 </div>

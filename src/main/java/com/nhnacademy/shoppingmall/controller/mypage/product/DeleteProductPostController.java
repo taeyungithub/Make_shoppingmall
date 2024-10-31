@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.POST,value = "/mypage/deleteProductAction.do")
+@RequestMapping(method = RequestMapping.Method.POST,value = "/admin/mypage/deleteProductAction.do")
 public class DeleteProductPostController implements BaseController {
     ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
     @Override

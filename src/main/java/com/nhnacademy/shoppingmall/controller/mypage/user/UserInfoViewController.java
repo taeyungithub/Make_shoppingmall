@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@RequestMapping(method = RequestMapping.Method.POST, value = "/mypage/userInfo.do")
+@RequestMapping(method = RequestMapping.Method.POST, value = "/admin/mypage/userInfo.do")
 public class UserInfoViewController implements BaseController {
 
     UserService userService = new UserServiceImpl(new UserRepositoryImpl());

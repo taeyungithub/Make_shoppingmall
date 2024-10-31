@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.POST, value = "/mypage/orderDeleteAction.do")
+@RequestMapping(method = RequestMapping.Method.POST, value = "/admin/mypage/orderDeleteAction.do")
 public class deleteFromOrderController implements BaseController {
 
     OrderService orderService = new OrderServiceImpl(new OrderRepositoryImpl());
@@ -44,6 +44,6 @@ public class deleteFromOrderController implements BaseController {
         userService.updateUser(user);
         log.info("포인트 복구완료");
 
-        return "redirect:/mypage/adminOrderList.do";
+        return "redirect:/admin/mypage/adminOrderList.do";
     }
 }

@@ -44,6 +44,6 @@ public class AddressPOSTController implements BaseController {
                 break;
         }
 
-        return "redirect:/addressPage.do";
+        return "redirect:/mypage/addressPage.do";
     }
 }

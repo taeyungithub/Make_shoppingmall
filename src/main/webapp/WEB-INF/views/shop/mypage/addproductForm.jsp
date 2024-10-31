@@ -19,7 +19,7 @@
                     <h3 class="card-title mb-0">상품 등록</h3>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="/mypage/addProductAction.do">
+                    <form method="post" action="/admin/mypage/addProductAction.do">
                         <div class="form-group">
                             <label for="categoryID">카테고리:</label>
                             <input type="text" class="form-control" id="categoryID" name="categoryID" placeholder="카테고리를 입력해주세요(1: 의류/잡화, 2: 뷰티, 3: 식품, 4: 주방/생활용품, 5:가전디지털)" required>

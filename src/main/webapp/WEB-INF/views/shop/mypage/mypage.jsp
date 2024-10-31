@@ -44,7 +44,7 @@
                     <div class="d-flex justify-content-center gap-3 mt-3">
                         <a class="btn btn-warning" href="/mypage/update.do">정보 수정</a>
 
-                        <a class="btn btn-warning" href="/addressPage.do">주소 관리</a>
+                        <a class="btn btn-warning" href="/mypage/addressPage.do">주소 관리</a>
 
                         <%--                        <a class="btn btn-warning" href="/mypage/usedPointList.do">포인트 사용이력</a>--%>
                         <form method="get" action="/mypage/usedPointList.do">
@@ -74,7 +74,7 @@
                         <h3>관리자 페이지</h3>
                     </div>
                     <div class="card-body text-center">
-                        <a href="/mypage/adminPage.do" class="btn btn-danger">관리자 페이지로 이동</a>
+                        <a href="/admin/mypage/adminPage.do" class="btn btn-danger">관리자 페이지로 이동</a>
                     </div>
                 </div>
             </div>

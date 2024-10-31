@@ -5,7 +5,7 @@ import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@RequestMapping(method = RequestMapping.Method.GET,value = "/mypage/addProduct.do")
+@RequestMapping(method = RequestMapping.Method.GET,value = "/admin/mypage/addProduct.do")
 public class AddProductGETController implements BaseController {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {

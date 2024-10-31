@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.GET,value = "/mypage/deleteProduct.do")
+@RequestMapping(method = RequestMapping.Method.GET,value = "/admin/mypage/deleteProduct.do")
 public class DeleteProductGETController implements BaseController {
         @Override
         public String execute(HttpServletRequest req, HttpServletResponse resp) {

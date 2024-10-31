@@ -58,7 +58,7 @@
                     <td>${user.userBirth}</td>
                     <td>${user.userPoint}</td>
                     <td>
-                        <form method="post" action="/mypage/userInfo.do">
+                        <form method="post" action="/admin/mypage/userInfo.do">
                             <input type="hidden" name="userId" value="${user.userId}">
                             <button type="submit" class="btn btn-warning">보기</button>
                         </form>

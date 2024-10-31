@@ -6,7 +6,7 @@
             <div class="card shadow-lg border-0 rounded-lg">
                 <div class="card-body p-4">
                     <h1 class="h3 mb-3 fw-bold text-center">상품 정보 수정</h1>
-                    <form method="post" action="/mypage/updateProductAction.do">
+                    <form method="post" action="/admin/mypage/updateProductAction.do">
                         <input type="hidden" name="productId" value="${sessionScope.product.productId}">
 
                         <div class="form-floating mb-3">

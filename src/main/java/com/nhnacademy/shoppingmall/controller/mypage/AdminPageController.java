@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-@RequestMapping(method = RequestMapping.Method.GET,value = "/mypage/adminPage.do")
+@RequestMapping(method = RequestMapping.Method.GET,value = "/admin/mypage/adminPage.do")
 public class AdminPageController implements BaseController{
 
     @Override

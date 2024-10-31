@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.GET, value = "/addressPage.do")
+@RequestMapping(method = RequestMapping.Method.GET, value = "/mypage/addressPage.do")
 public class AddressController implements BaseController {
 
     AddressService addressService = new AddressServiceImpl(new AddressRepositoryImpl());
