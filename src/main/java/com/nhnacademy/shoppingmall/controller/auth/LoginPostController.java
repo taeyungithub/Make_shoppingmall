@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Objects;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.POST,value = "/loginAction.do")
+@RequestMapping(method = RequestMapping.Method.POST, value = "/loginAction.do")
 public class LoginPostController implements BaseController {
 
     private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
@@ -28,19 +28,19 @@ public class LoginPostController implements BaseController {
         String userId = req.getParameter("user_id");
         String password = req.getParameter("user_password");
 
-        if (userId == null || password == null || userId.isEmpty() || password.isEmpty()) {
-            throw new RuntimeException();
+        User user = null;
+        try {
+            user = userService.doLogin(userId, password);
+        } catch (UserNotFoundException e) {
+            req.setAttribute("errorMessage", "아이디나 비밀번호를 잘못입력하였습니다.");
+            return "shop/error";
         }
 
-        User user = userService.doLogin(userId, password);
-        if (Objects.nonNull(user)) {
-            HttpSession session = req.getSession(true);
-            session.setMaxInactiveInterval(60 * 60);
-            session.setAttribute("user", user);
-            log.debug("user :{}", user);
-            return "redirect:/";
-        }
-        return "shop/login/login_form";
+        HttpSession session = req.getSession(true);
+        session.setMaxInactiveInterval(60 * 60);
+        session.setAttribute("user", user);
+        log.debug("user :{}", user);
+        return "redirect:/";
+
     }
-
 }

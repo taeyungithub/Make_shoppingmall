@@ -3,6 +3,7 @@ package com.nhnacademy.shoppingmall.category.repository.impl;
 import com.nhnacademy.shoppingmall.category.domain.Category;
 import com.nhnacademy.shoppingmall.category.repository.CategoryRepository;
 import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLocal;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT * FROM categories WHERE category_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, categoryId);
-            try (ResultSet rs = psmt.executeQuery()) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, categoryId);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
                     Category category = new Category(
                             rs.getInt("category_id"),
@@ -38,8 +39,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         String sql = "SELECT * FROM categories";
         List<Category> categories = new ArrayList<>();
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql);
-             ResultSet rs = psmt.executeQuery()) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet rs = preparedStatement.executeQuery()) {
 
             while (rs.next()) {
                 categories.add(new Category(
@@ -58,10 +59,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "INSERT INTO categories (category_id, category_name) VALUES (?, ?)";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, category.getCategoryId());
-            psmt.setString(2, category.getCategoryName());
-            return psmt.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, category.getCategoryId());
+            preparedStatement.setString(2, category.getCategoryName());
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,10 +74,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "UPDATE categories SET category_name = ? WHERE category_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setString(1, category.getCategoryName());
-            psmt.setInt(2, category.getCategoryId());
-            return psmt.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, category.getCategoryName());
+            preparedStatement.setInt(2, category.getCategoryId());
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,9 +89,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "DELETE FROM categories WHERE category_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, categoryId);
-            return psmt.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, categoryId);
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

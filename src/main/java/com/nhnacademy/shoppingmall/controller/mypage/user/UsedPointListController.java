@@ -32,7 +32,6 @@ public class UsedPointListController implements BaseController {
         List<Order> orders = orderService.getOrderByUserId(userId);
         log.info("orders: {}", orders);
 
-        // Order와 해당 Address를 매핑하는 Map 생성
         Map<Order, Address> orderAddressMap = new HashMap<>();
         for (Order order : orders) {
             int addressId = order.getAddressId();

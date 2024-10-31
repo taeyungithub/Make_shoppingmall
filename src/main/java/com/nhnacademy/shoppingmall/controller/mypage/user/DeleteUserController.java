@@ -2,6 +2,7 @@ package com.nhnacademy.shoppingmall.controller.mypage.user;
 
 import com.nhnacademy.shoppingmall.common.mvc.annotation.RequestMapping;
 import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
+import com.nhnacademy.shoppingmall.user.exception.UserNotFoundException;
 import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
 import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
@@ -20,11 +21,12 @@ public class DeleteUserController implements BaseController {
         String userId = req.getParameter("userId");
 
         try{
-            userService.getUser(userId);
-        }catch (RuntimeException e){
-            log.info("삭제할 회원이 없습니다");
+            userService.deleteUser(userId);
         }
-        userService.deleteUser(userId);
+        catch (UserNotFoundException e) {
+            req.setAttribute("errorMessage", "삭제할 회원이 없습니다.");
+            return "shop/error";
+        }
         log.info("회원삭제 완료했습니다.");
 
         HttpSession session = req.getSession();

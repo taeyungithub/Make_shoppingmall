@@ -27,13 +27,13 @@ public class ApplicationListener implements ServletContextListener {
 
         try {
             if (userService.getUser("admin") == null) {
-                userService.saveUser(new User("admin", "admin", "12345", "1234", User.Auth.ROLE_ADMIN, 1000000, LocalDateTime.now(), null));
+                userService.saveUser(new User("admin", "admin", "12345", "19990101", User.Auth.ROLE_ADMIN, 1000000, LocalDateTime.now(), null));
             } else {
                 log.info("Admin account already exists.");
             }
 
             if (userService.getUser("user") == null) {
-                userService.saveUser(new User("user", "user", "12345", "1234", User.Auth.ROLE_USER, 1000000, LocalDateTime.now(), null));
+                userService.saveUser(new User("user", "user", "12345", "19990101", User.Auth.ROLE_USER, 1000000, LocalDateTime.now(), null));
             } else {
                 log.info("User account already exists.");
             }

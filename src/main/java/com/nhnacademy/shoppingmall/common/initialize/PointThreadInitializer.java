@@ -6,6 +6,7 @@ import com.nhnacademy.shoppingmall.thread.worker.WorkerThread;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+
 import java.util.Set;
 
 public class PointThreadInitializer implements ServletContainerInitializer {

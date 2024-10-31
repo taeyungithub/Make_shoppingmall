@@ -26,7 +26,6 @@ public class AddressController implements BaseController {
         User user = (User) session.getAttribute("user");
         String userId = user.getUserId();
 
-        // 유저의 주소 목록을 가져와서 세션에 저장
         List<Address> addresses = addressService.getAddressesByUserId(userId);
         session.setAttribute("addresses", addresses);
         return "shop/address/addressManagement";

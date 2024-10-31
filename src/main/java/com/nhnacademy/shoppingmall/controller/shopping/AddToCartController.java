@@ -31,21 +31,21 @@ public class AddToCartController implements BaseController {
 
         HttpSession session = req.getSession();
 
-        // 장바구니 리스트 가져오기 또는 초기화
+        // 장바구니 리스트
         List<Product> cart = (List<Product>) session.getAttribute("cart");
         if (cart == null) {
             cart = new LinkedList<>();
             session.setAttribute("cart", cart);
         }
 
-        // 수량 맵 가져오기 또는 초기화
+        // 수량 맵
         Map<Integer, Integer> quantityMap = (Map<Integer, Integer>) session.getAttribute("quantityMap");
         if (quantityMap == null) {
             quantityMap = new HashMap<>();
             session.setAttribute("quantityMap", quantityMap);
         }
 
-        // 세션에 저장된 stockMap 가져오기 또는 초기화
+        // 세션에 저장된 stockMap
         Map<Integer, Integer> stockMap = (Map<Integer, Integer>) session.getAttribute("stockMap");
         if (stockMap == null) {
             stockMap = new HashMap<>();
@@ -56,20 +56,17 @@ public class AddToCartController implements BaseController {
         int currentQuantity = quantityMap.getOrDefault(productId, 0);
         int availableStock = stockMap.getOrDefault(productId, product.getStock());
 
-        // 재고가 허용하는 최대 수량까지만 요청 수량을 증가시키기
+        // 재고가 허용하는 최대 수량까지만 요청 수량을 증가
         int totalRequestedQuantity = Math.min(currentQuantity + requestStock, availableStock);
 
         // 장바구니에 이미 있는 상품인지 확인 후 추가
         if (!cart.contains(product)) {
-            cart.add(product); // 장바구니에 상품 추가 (처음 추가하는 경우)
+            cart.add(product);
         }
 
         // 수량 맵 및 세션 내의 재고 맵 업데이트
         quantityMap.put(productId, totalRequestedQuantity);
-        stockMap.put(productId, availableStock); // 재고 업데이트는 주문 시에만 적용
-
-        log.info("장바구니에 추가 완료: 제품 ID={}, 요청 수량={}, 현재 재고={}", productId, totalRequestedQuantity, availableStock);
-
+        stockMap.put(productId, availableStock);
 
         return "redirect:/shopping/cart.do";
     }

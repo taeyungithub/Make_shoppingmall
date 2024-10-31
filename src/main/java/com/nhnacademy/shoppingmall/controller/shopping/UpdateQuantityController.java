@@ -29,7 +29,7 @@ public class UpdateQuantityController implements BaseController {
             }
         }
 
-        session.setAttribute("quantityMap", quantityMap);  // 업데이트된 수량을 다시 세션에 저장
-        return "redirect:/shopping/cart.do";  // 장바구니 페이지로 리다이렉트
+        session.setAttribute("quantityMap", quantityMap);
+        return "redirect:/shopping/cart.do";
     }
 }

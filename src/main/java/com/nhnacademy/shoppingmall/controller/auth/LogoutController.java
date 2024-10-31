@@ -12,7 +12,7 @@ public class LogoutController implements BaseController {
     //todo#13-3 로그아웃 구현
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().invalidate();
-        log.debug("로그아웃");
+        log.info("로그아웃");
         return "redirect:/";
     }
 }

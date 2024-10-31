@@ -7,9 +7,13 @@ import java.util.Optional;
 
 public interface AddressRepository {
     Optional<Address> findById(int addressId);
+
     List<Address> findAllByUserId(String userId);
+
     int save(Address address);
+
     int deleteById(int addressId);
+
     void updateAddress(Address address);
 
 }

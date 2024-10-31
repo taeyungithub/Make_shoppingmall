@@ -18,10 +18,10 @@ public class OrderRepositoryImpl implements OrderRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT * FROM orders WHERE order_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, orderId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, orderId);
 
-            try (ResultSet rs = psmt.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     Order order = new Order(
                             rs.getString("user_id"),
@@ -46,11 +46,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT * FROM orders WHERE user_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setString(1, userId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userId);
             List<Order> orders = new ArrayList<>();
 
-            try (ResultSet rs = psmt.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     Order order = new Order(
                             rs.getString("user_id"),
@@ -78,8 +78,8 @@ public class OrderRepositoryImpl implements OrderRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT * FROM orders";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            try (ResultSet rs = psmt.executeQuery()) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 List<Order> orders = new ArrayList<>();
                 while (rs.next()) {
                     Order order = new Order(
@@ -106,17 +106,17 @@ public class OrderRepositoryImpl implements OrderRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "INSERT INTO orders (user_id, product_id, quantity, total_price, order_date, address_id) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            psmt.setString(1, order.getOrdereduserId());
-            psmt.setInt(2, order.getOrderedproductId());
-            psmt.setInt(3, order.getQuantity());
-            psmt.setLong(4, order.getTotalPrice());
-            psmt.setTimestamp(5, Timestamp.valueOf(order.getOrderDate()));
-            psmt.setInt(6, order.getAddressId()); // 추가된 address_id 값 설정
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, order.getOrdereduserId());
+            preparedStatement.setInt(2, order.getOrderedproductId());
+            preparedStatement.setInt(3, order.getQuantity());
+            preparedStatement.setLong(4, order.getTotalPrice());
+            preparedStatement.setTimestamp(5, Timestamp.valueOf(order.getOrderDate()));
+            preparedStatement.setInt(6, order.getAddressId()); // 추가된 address_id 값 설정
 
-            int affectedRows = psmt.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
-                try (ResultSet generatedKeys = psmt.getGeneratedKeys()) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         order.setOrderId(generatedKeys.getInt(1));
                     }
@@ -143,6 +143,4 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         return 0;
     }
-
-
 }

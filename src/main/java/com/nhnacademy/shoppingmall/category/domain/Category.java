@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.category.domain;
 
+//카테고리
 public class Category {
     int categoryId;
     String categoryName;

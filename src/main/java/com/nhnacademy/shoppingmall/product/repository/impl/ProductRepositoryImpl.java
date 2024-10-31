@@ -287,7 +287,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         return new Page<>(products, totalCount);
     }
 
-    // 카테고리별 상품 개수 계산 메서드
     private long countByCategoryId(int categoryId) {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";

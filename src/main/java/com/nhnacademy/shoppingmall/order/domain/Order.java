@@ -10,16 +10,15 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Order {
-    private int orderId;            // 주문 ID
-    private String OrdereduserId;              // 주문한 사용자 정보
+    private int orderId;                    // 주문 ID
+    private String OrdereduserId;         // 주문한 사용자 정보
     private int OrderedproductId;        // 주문한 상품
-    private int quantity;           // 주문 수량
-    private long totalPrice;        // 총 주문 가격
-    private LocalDateTime orderDate;// 주문 날짜
+    private int quantity;               // 주문 수량
+    private long totalPrice;            // 총 주문 가격
+    private LocalDateTime orderDate;    // 주문 날짜
     private int addressId;
-    // 주문 생성자
 
-    public Order(String userId, int productId, int quantity,int addressId) {
+    public Order(String userId, int productId, int quantity, int addressId) {
         this.OrdereduserId = userId;
         this.OrderedproductId = productId;
         this.quantity = quantity;
@@ -32,7 +31,6 @@ public class Order {
         ProductService ps = new ProductServiceImpl(new ProductRepositoryImpl());
         Product product = ps.getProduct(productId);
         long price = product.getProductPrice();
-
 
         return price * quantity;
     }

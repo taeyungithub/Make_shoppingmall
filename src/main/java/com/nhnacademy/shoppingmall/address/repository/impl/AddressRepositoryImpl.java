@@ -18,10 +18,10 @@ public class AddressRepositoryImpl implements AddressRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "SELECT * FROM addresses WHERE address_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, addressId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, addressId);
 
-            try (ResultSet rs = psmt.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
                     return Optional.of(new Address(
                             rs.getInt("address_id"),
@@ -42,10 +42,10 @@ public class AddressRepositoryImpl implements AddressRepository {
         String sql = "SELECT * FROM addresses WHERE user_id = ?";
         List<Address> addresses = new ArrayList<>();
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setString(1, userId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userId);
 
-            try (ResultSet rs = psmt.executeQuery()) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     addresses.add(new Address(
                             rs.getInt("address_id"),
@@ -65,12 +65,12 @@ public class AddressRepositoryImpl implements AddressRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "INSERT INTO addresses (address_id, address, user_id) VALUES (?, ?, ?)";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, address.getAddressId());
-            psmt.setString(2, address.getAddress());
-            psmt.setString(3, address.getUserId());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, address.getAddressId());
+            preparedStatement.setString(2, address.getAddress());
+            preparedStatement.setString(3, address.getUserId());
 
-            return psmt.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,21 +82,22 @@ public class AddressRepositoryImpl implements AddressRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "DELETE FROM addresses WHERE address_id = ?";
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, addressId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, addressId);
 
-            return psmt.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
+
     @Override
     public void updateAddress(Address address) {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = "UPDATE addresses SET address = ? WHERE address_id = ? AND user_id = ?";
         try (
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, address.getAddress());
             preparedStatement.setInt(2, address.getAddressId());
             preparedStatement.setString(3, address.getUserId());

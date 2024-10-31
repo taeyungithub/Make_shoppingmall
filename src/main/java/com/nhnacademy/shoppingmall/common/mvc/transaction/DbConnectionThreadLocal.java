@@ -51,8 +51,6 @@ public class DbConnectionThreadLocal {
         Connection connection = connectionThreadLocal.get();
 
 
-
-
         if (getSqlError()) {
             //todo#2-5 getSqlError() 에러가 존재하면 rollback 합니다.
             try {

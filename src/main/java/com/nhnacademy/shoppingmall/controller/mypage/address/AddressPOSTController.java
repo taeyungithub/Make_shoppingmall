@@ -20,13 +20,11 @@ import java.util.List;
 public class AddressPOSTController implements BaseController {
     private final AddressService addressService = new AddressServiceImpl(new AddressRepositoryImpl());
 
-
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getParameter("action");
         User user = (User) req.getSession().getAttribute("user");
         String userId = user.getUserId();
-
 
         switch (action) {
             case "add":

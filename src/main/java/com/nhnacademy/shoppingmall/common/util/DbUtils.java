@@ -2,12 +2,13 @@ package com.nhnacademy.shoppingmall.common.util;
 
 
 import org.apache.commons.dbcp2.BasicDataSource;
+
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.time.Duration;
 
 public class DbUtils {
-    public DbUtils(){
+    public DbUtils() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -43,7 +44,7 @@ public class DbUtils {
 
     }
 
-    public static DataSource getDataSource(){
+    public static DataSource getDataSource() {
         return DATASOURCE;
     }
 

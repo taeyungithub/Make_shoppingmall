@@ -54,27 +54,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User doLogin(String userId, String userPassword) {
-        // 사용자 조회 및 검증
-        User user = userRepository.findByUserIdAndUserPassword(userId, userPassword).orElse(null);
-        if (user == null) {
-            log.debug("로그인 실패");
-            throw new UserNotFoundException(userId);
+        User user = null;
+        try {
+            user = userRepository.findByUserIdAndUserPassword(userId, userPassword)
+                    .orElseThrow(() -> new UserNotFoundException(userId));
+            log.info("로그인 성공");
+        } catch (UserNotFoundException e) {
+            log.error("로그인 실패");
+            throw e;
         }
 
-        // 현재 날짜와 마지막 로그인 날짜 가져오기
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime lastLogin = user.getLatestLoginAt();
 
-        // 마지막 로그인과 오늘 날짜의 일자를 비교하여 포인트 지급 여부 결정
         if (lastLogin == null || lastLogin.toLocalDate().isBefore(now.toLocalDate())) {
-            int dailyBonusPoints = 10000;  // 지급할 포인트
-            user.setUserPoint(user.getUserPoint() + 10000);  // 포인트 추가
-            log.debug("일일 첫 로그인 포인트 {}점이 지급되었습니다.", dailyBonusPoints);
+            int dailyPoints = 10000;
+            user.setUserPoint(user.getUserPoint() + 10000);
+            log.debug("일일 첫 로그인 포인트 지급", dailyPoints);
         }
 
-        // 로그인 시간 업데이트
         userRepository.updateLatestLoginAtByUserId(userId, now);
-        userRepository.update(user);  // 포인트가 변경된 사용자 정보 업데이트
+        userRepository.update(user);
         log.debug("로그인 성공");
 
         return user;

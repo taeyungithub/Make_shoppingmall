@@ -22,7 +22,6 @@ public class UserListController implements BaseController {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         List<User> users = userService.getUsers();
 
-        // 관리자와 일반 사용자 구분
         List<User> admins = users.stream()
                 .filter(user -> user.getUserAuth() == User.Auth.ROLE_ADMIN)
                 .collect(Collectors.toList());

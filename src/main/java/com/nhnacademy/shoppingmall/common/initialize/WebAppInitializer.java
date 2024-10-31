@@ -7,6 +7,7 @@ import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HandlesTypes;
+
 import java.util.Set;
 
 @Slf4j
@@ -19,6 +20,6 @@ public class WebAppInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
         ControllerFactory controllerFactory = new ControllerFactory();
-        controllerFactory.initialize(c,ctx);
+        controllerFactory.initialize(c, ctx);
     }
 }

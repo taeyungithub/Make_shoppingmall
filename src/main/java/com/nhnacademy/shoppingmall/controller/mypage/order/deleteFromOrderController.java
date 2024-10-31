@@ -33,8 +33,6 @@ public class deleteFromOrderController implements BaseController {
         orderService.cancelOrder(orderId);
         log.info("삭제완료");
 
-        //포인트 돌려주기? 어떻게 하지
-
         String userId = order.getOrdereduserId();
         User user = userService.getUser(userId);
         log.info("userId: {}, user: {}", userId, user);
@@ -46,6 +44,6 @@ public class deleteFromOrderController implements BaseController {
         userService.updateUser(user);
         log.info("포인트 복구완료");
 
-        return "redirect:/mypage/mypage.do";
+        return "redirect:/mypage/adminOrderList.do";
     }
 }

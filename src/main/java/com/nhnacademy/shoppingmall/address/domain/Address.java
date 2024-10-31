@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.address.domain;
 
+// 주소
 public class Address {
     int addressId;
     String address;

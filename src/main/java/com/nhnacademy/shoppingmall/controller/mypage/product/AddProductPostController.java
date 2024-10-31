@@ -4,6 +4,7 @@ import com.nhnacademy.shoppingmall.common.mvc.annotation.RequestMapping;
 import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
 
 import com.nhnacademy.shoppingmall.product.domain.Product;
+import com.nhnacademy.shoppingmall.product.exception.ProductAlreadyExistsException;
 import com.nhnacademy.shoppingmall.product.repository.impl.ProductRepositoryImpl;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import com.nhnacademy.shoppingmall.product.service.impl.ProductServiceImpl;
@@ -12,9 +13,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping(method = RequestMapping.Method.POST,value = "/mypage/addProductAction.do")
+@RequestMapping(method = RequestMapping.Method.POST, value = "/mypage/addProductAction.do")
 public class AddProductPostController implements BaseController {
     ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl());
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String categoryID = req.getParameter("categoryID"); // 카테고리 ID
@@ -47,9 +49,14 @@ public class AddProductPostController implements BaseController {
         product.setStock(stock);
         log.info("product 객체 생성 완료");
 
-        productService.saveProduct(product);
-        log.info("product 객체 저장 완료");
+        try {
+            productService.saveProduct(product);
+        } catch (ProductAlreadyExistsException e) {
 
+            req.setAttribute("errorMessage", "잘못 입력하셨습니다.");
+            return "shop/error";
+        }
+        log.info("product 객체 저장 완료");
         req.setAttribute("successAdd", true);
         return "shop/mypage/admin_page";
     }

@@ -42,12 +42,12 @@
 
                         <div class="form-group">
                             <label for="description">상품 설명:</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="상품 설명을 입력해주세요"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="상품 설명을 입력해주세요" required></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="stock">재고:</label>
-                            <textarea class="form-control" id="stock" name="stock" rows="3" placeholder="재고를 입력해주세요"></textarea>
+                            <textarea class="form-control" id="stock" name="stock" rows="3" placeholder="재고를 입력해주세요" required></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block">상품 등록</button>

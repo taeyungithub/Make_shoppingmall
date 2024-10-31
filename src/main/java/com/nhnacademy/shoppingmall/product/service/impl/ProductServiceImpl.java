@@ -8,6 +8,7 @@ import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
@@ -19,6 +20,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProduct(int productId) {
+
+        if (Objects.isNull(productRepository.findById(productId))) {
+            throw new ProductNotFoundException("id: " + productId + " not found");
+        }
         return productRepository.findById(productId).orElse(null);
     }
 

@@ -47,7 +47,7 @@ public class OrderController implements BaseController {
             return "redirect:/shopping/cart.do";
         }
 
-        long totalOrderPrice = 0; // 총 주문 금액
+        long totalOrderPrice = 0;
 
         for (Map.Entry<Integer, Integer> entry : quantityMap.entrySet()) {
             int productId = entry.getKey();
@@ -68,27 +68,21 @@ public class OrderController implements BaseController {
             int addressId = Integer.parseInt(req.getParameter("addressId"));
             log.info("addressId = {}", addressId);
 
-            // 주문 생성 및 저장
             Order order = new Order(user.getUserId(), productId, quantity,addressId);
             log.info("order = {}", order);
             log.info(String.valueOf(order.getAddressId()));
             orderService.placeOrder(order);
 
-            // 재고 및 사용자 포인트 업데이트
             product.setStock(product.getStock() - quantity);
             productService.updateProduct(product);
             user.setUserPoint(user.getUserPoint() - (int) totalPrice);
             userService.updateUser(user);
 
-            totalOrderPrice += totalPrice; // 총 주문 금액 누적
+            totalOrderPrice += totalPrice;
         }
 
-
-
-        // 총 주문 금액의 10% 포인트 적립
         int pointsToAdd = (int) (totalOrderPrice * 0.1);
 
-        // 포인트 적립 요청 생성 및 큐에 추가
         ServletContext context = req.getServletContext();
         RequestChannel requestChannel = (RequestChannel) context.getAttribute("requestChannel");
         PointChannelRequest pointRequest = new PointChannelRequest(user, pointsToAdd);

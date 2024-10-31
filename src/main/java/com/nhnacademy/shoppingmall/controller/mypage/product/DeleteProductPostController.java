@@ -19,13 +19,12 @@ public class DeleteProductPostController implements BaseController {
         int prodcutID = Integer.parseInt(req.getParameter("productID"));
 
         try {
-            productService.getProduct(prodcutID);
+            productService.deleteProduct(prodcutID);
         } catch (RuntimeException e) {
             log.info("삭제할 id가 없음");
-            return "shop/mypage/deleteproductForm";
+            req.setAttribute("errorMessage", "삭제할 상품이 없습니다.");
+            return "shop/error";
         }
-
-        productService.deleteProduct(prodcutID);
         log.info("삭제완료");
         return "shop/mypage/admin_page";
     }

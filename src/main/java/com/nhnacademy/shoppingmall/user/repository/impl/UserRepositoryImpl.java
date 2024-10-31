@@ -78,6 +78,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return users;
     }
+
     @Override
     public Optional<User> findById(String userId) {
         //todo#3-2 회원조회
@@ -169,7 +170,7 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setTimestamp(7, Timestamp.valueOf(user.getCreatedAt()));
             preparedStatement.setTimestamp(8, Objects.nonNull(user.getLatestLoginAt()) ? Timestamp.valueOf(user.getLatestLoginAt()) : null);
 
-            preparedStatement.setString(9, user.getUserId()); //where 절용 파라미터
+            preparedStatement.setString(9, user.getUserId());
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

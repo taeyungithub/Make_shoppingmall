@@ -7,12 +7,13 @@
     <meta charset="UTF-8">
     <title>사용자 목록</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="bg-light">
 <div class="container mt-5">
     <h2 class="mb-4">사용자 목록</h2>
 
-    <!-- 관리자 목록 -->
     <div class="mb-5">
         <h3>관리자</h3>
         <table class="table table-bordered table-hover">
@@ -37,7 +38,6 @@
         </table>
     </div>
 
-    <!-- 일반 사용자 목록 -->
     <div>
         <h3>일반 사용자</h3>
         <table class="table table-bordered table-hover">
@@ -70,7 +70,5 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

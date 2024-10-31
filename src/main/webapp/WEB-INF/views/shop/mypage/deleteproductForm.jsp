@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <title>상품 삭제</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -22,7 +24,8 @@
                     <form method="post" action="/mypage/deleteProductAction.do">
                         <div class="form-group">
                             <label for="productID">상품 ID:</label>
-                            <input type="text" class="form-control" id="productID" name="productID" placeholder="삭제할 상품 ID를 입력해주세요" required>
+                            <input type="text" class="form-control" id="productID" name="productID"
+                                   placeholder="삭제할 상품 ID를 입력해주세요" required>
                         </div>
                         <button type="submit" class="btn btn-danger btn-block">상품 삭제</button>
                     </form>
@@ -44,7 +47,5 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

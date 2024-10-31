@@ -46,7 +46,7 @@
 
                         <a class="btn btn-warning" href="/addressPage.do">주소 관리</a>
 
-<%--                        <a class="btn btn-warning" href="/mypage/usedPointList.do">포인트 사용이력</a>--%>
+                        <%--                        <a class="btn btn-warning" href="/mypage/usedPointList.do">포인트 사용이력</a>--%>
                         <form method="get" action="/mypage/usedPointList.do">
                             <div class="form-group">
                                 <input type="hidden" name="userId" value="${sessionScope.user.userId}">
