@@ -20,12 +20,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProduct(int productId) {
-
-        if (Objects.isNull(productRepository.findById(productId))) {
-            throw new ProductNotFoundException("id: " + productId + " not found");
-        }
-        return productRepository.findById(productId).orElse(null);
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
     }
+
 
     @Override
     public List<Product> getAllProdcutList() {
@@ -34,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void saveProduct(Product product) {
-        if (getProduct(product.getProductId()) != null) {
+        if (existsById(product.getProductId())) {
             throw new ProductAlreadyExistsException(product.getProductName());
         }
         productRepository.save(product);
@@ -81,4 +79,9 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> getProductPageListByCategory(int pageSize, int currentPage, int categoryId) {
         return productRepository.findAllByCategory(categoryId, currentPage, pageSize);
     }
+
+    private boolean existsById(int productId) {
+        return productRepository.findById(productId).isPresent();
+    }
+
 }

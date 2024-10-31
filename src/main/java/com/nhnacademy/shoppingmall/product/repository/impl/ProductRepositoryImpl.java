@@ -24,7 +24,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             preparedStatement.setInt(1, productId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Product product = new Product(
                             resultSet.getInt("product_id"),
                             resultSet.getInt("category_id"),
@@ -76,9 +76,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int save(Product product) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "INSERT INTO products (category_id, product_name, product_image, product_price, description, stock) VALUES (?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO products (category_id, product_name, product_image, product_price, description, stock) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, product.getCategoryId());
             preparedStatement.setString(2, product.getProductName());
             preparedStatement.setString(3, product.getProductImage());
@@ -86,12 +86,22 @@ public class ProductRepositoryImpl implements ProductRepository {
             preparedStatement.setString(5, product.getDescription());
             preparedStatement.setInt(6, product.getStock());
 
-            return preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        product.setProductId(generatedKeys.getInt(1));
+                    }
+                }
+            }
+            return rowsAffected;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
+
 
     @Override
     public int deleteByProductId(int productId) {

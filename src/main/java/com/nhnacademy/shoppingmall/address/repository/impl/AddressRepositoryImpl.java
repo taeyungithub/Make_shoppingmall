@@ -63,19 +63,29 @@ public class AddressRepositoryImpl implements AddressRepository {
     @Override
     public int save(Address address) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "INSERT INTO addresses (address_id, address, user_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO addresses (address, user_id) VALUES (?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, address.getAddressId());
-            preparedStatement.setString(2, address.getAddress());
-            preparedStatement.setString(3, address.getUserId());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, address.getAddress());
+            preparedStatement.setString(2, address.getUserId());
 
-            return preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int generatedId = generatedKeys.getInt(1);
+                        address.setAddressId(generatedId);
+                        return generatedId;
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
+
 
     @Override
     public int deleteById(int addressId) {

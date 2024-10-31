@@ -29,7 +29,6 @@
 %>
 
 <div class="container mt-4">
-    <!-- 카테고리 버튼 -->
     <div class="mb-4 text-center">
         <a href="?categoryId=1" class="btn <%= categoryId == 1 ? "btn-primary" : "btn-outline-primary" %>">의류/잡화</a>
         <a href="?categoryId=2" class="btn <%= categoryId == 2 ? "btn-primary" : "btn-outline-primary" %>">뷰티</a>
@@ -40,7 +39,6 @@
 
     <hr class="my-4">
 
-    <!-- 최근 본 상품 - 가로 정렬 -->
     <div class="recent-products-horizontal d-flex align-items-center mb-4 overflow-auto">
         <h4 class="me-3">최근 본 상품</h4>
         <c:forEach var="product" items="${sessionScope.recentProducts}">
@@ -60,7 +58,6 @@
 
     <hr class="my-4">
 
-    <!-- 메인 상품 목록 -->
     <div class="product-list">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             <% for (Product product : pageProducts.getContent()) { %>
@@ -85,7 +82,6 @@
             <% } %>
         </div>
 
-        <!-- 페이지네이션 -->
         <div class="d-flex justify-content-center mt-4">
             <ul class="pagination">
                 <% for (int i = beginPage; i <= endPage; i++) { %>

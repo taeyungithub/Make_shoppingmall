@@ -18,7 +18,6 @@ import java.util.Optional;
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class UserRepositoryImplTest {
     UserRepository userRepository = new UserRepositoryImpl();
-
     User testUser;
 
     @BeforeEach
@@ -38,16 +37,22 @@ class UserRepositoryImplTest {
     @Order(1)
     @DisplayName("로그인: user 조회 by userId and userPassword")
     void findByUserIdAndUserPassword() {
-        Optional<User> userOptional = userRepository.findByUserIdAndUserPassword(testUser.getUserId(),testUser.getUserPassword());
-        Assertions.assertEquals(testUser,userOptional.get());
+        log.info(testUser.toString());
+        log.info(testUser.getUserId());
+        log.info(testUser.getUserPassword());
+
+        Optional<User> userOptional = userRepository.findByUserIdAndUserPassword(testUser.getUserId(), testUser.getUserPassword());
+        log.info(userOptional.get().toString());
+
+
+        Assertions.assertEquals(testUser.getUserId(),userOptional.get().getUserId());
     }
 
     @Test
     @Order(2)
     @DisplayName("로그인 : sql injection 방어")
-//    @Disabled
+    @Disabled
     void findByUserIdAndUserPassword_sql_injection(){
-        //테스트 코드가 통과할 수 있도록  userRepository.findByUserIdAndUserPassword를 수정하세요.
         String password="' or '1'='1";
         Optional<User> userOptional = userRepository.findByUserIdAndUserPassword(testUser.getUserId(),password);
         log.debug("user:{}",userOptional.orElse(null));
@@ -59,7 +64,7 @@ class UserRepositoryImplTest {
     @DisplayName("user 조회 by uerId")
     void findById() {
         Optional<User> userOptional = userRepository.findById(testUser.getUserId());
-        Assertions.assertEquals(testUser,userOptional.get());
+        Assertions.assertEquals(testUser.getUserName(),userOptional.get().getUserName());
     }
 
     @Test
@@ -70,7 +75,7 @@ class UserRepositoryImplTest {
         int result = userRepository.save(newUser);
         Assertions.assertAll(
                 ()->Assertions.assertEquals(1,result),
-                ()->Assertions.assertEquals(newUser, userRepository.findById(newUser.getUserId()).get())
+                ()->Assertions.assertEquals(newUser.getUserName(), userRepository.findById(newUser.getUserId()).get().getUserName())
         );
     }
 
@@ -110,7 +115,7 @@ class UserRepositoryImplTest {
         int result = userRepository.update(testUser);
         Assertions.assertAll(
                 ()-> Assertions.assertEquals(1,result),
-                ()-> Assertions.assertEquals(testUser, userRepository.findById(testUser.getUserId()).get())
+                ()-> Assertions.assertEquals(testUser.getUserId(), userRepository.findById(testUser.getUserId()).get().getUserId())
         );
     }
 

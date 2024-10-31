@@ -112,7 +112,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             preparedStatement.setInt(3, order.getQuantity());
             preparedStatement.setLong(4, order.getTotalPrice());
             preparedStatement.setTimestamp(5, Timestamp.valueOf(order.getOrderDate()));
-            preparedStatement.setInt(6, order.getAddressId()); // 추가된 address_id 값 설정
+            preparedStatement.setInt(6, order.getAddressId());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {

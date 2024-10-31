@@ -2,7 +2,6 @@ package com.nhnacademy.shoppingmall.category.service.impl;
 
 import com.nhnacademy.shoppingmall.category.domain.Category;
 import com.nhnacademy.shoppingmall.category.repository.CategoryRepository;
-import com.nhnacademy.shoppingmall.category.repository.impl.CategoryRepositoryImpl;
 import com.nhnacademy.shoppingmall.category.service.CategoryService;
 
 import java.util.List;
@@ -26,17 +25,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void addCategory(Category category) {
-        categoryRepository.save(category);
+    public int addCategory(Category category) {
+
+        return categoryRepository.save(category);
     }
 
     @Override
-    public void updateCategory(Category category) {
-        categoryRepository.update(category);
+    public int updateCategory(Category category) {
+        return categoryRepository.update(category);
     }
 
     @Override
-    public void deleteCategory(int categoryId) {
-        categoryRepository.deleteById(categoryId);
+    public int deleteCategory(int categoryId) {
+        return categoryRepository.deleteById(categoryId);
     }
 }

@@ -57,17 +57,27 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public int save(Category category) {
         Connection connection = DbConnectionThreadLocal.getConnection();
-        String sql = "INSERT INTO categories (category_id, category_name) VALUES (?, ?)";
+        String sql = "INSERT INTO categories (category_name) VALUES (?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, category.getCategoryId());
-            preparedStatement.setString(2, category.getCategoryName());
-            return preparedStatement.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, category.getCategoryName());
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        category.setCategoryId(generatedKeys.getInt(1));
+                    }
+                }
+            }
+            return affectedRows;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
+
 
     @Override
     public int update(Category category) {

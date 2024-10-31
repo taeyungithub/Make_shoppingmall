@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface OrderService {
     Order getOrder(int orderId);
+
     List<Order> getOrderByUserId(String userId);
+
     List<Order> getAllOrders();
+
     void placeOrder(Order order);
+
     void cancelOrder(int orderId);
 }
