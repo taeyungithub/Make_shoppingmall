@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### application-dev.properties 파일 제외
+src/main/resources/application-dev.properties
+
 ### STS ###
 .apt_generated
 .classpath
