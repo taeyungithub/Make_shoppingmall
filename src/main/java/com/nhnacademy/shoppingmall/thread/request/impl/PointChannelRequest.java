@@ -25,7 +25,7 @@ public class PointChannelRequest extends ChannelRequest {
         DbConnectionThreadLocal.initialize();
         try {
             user.setUserPoint(user.getUserPoint() + pointsToAdd);
-            userService.updateUser(user); // 업데이트 호출 추가
+            userService.updateUser(user);
             log.info("포인트 적립 완료: {} 포인트 적립", pointsToAdd);
             DbConnectionThreadLocal.getConnection().commit();
         } catch (Exception e) {
