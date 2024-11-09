@@ -20,7 +20,7 @@ public class Address {
     @Column(nullable = false, length = 200)  // NOT NULL 제약 조건, 최대 길이 100 설정
     private String address;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)  // 외래 키로 User 엔티티와 연결
     private User user;
 }

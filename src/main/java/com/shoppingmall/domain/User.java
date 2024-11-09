@@ -13,7 +13,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -49,9 +48,9 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime latestLoginAt;
 
-    @OneToMany(mappedBy = "user")  // User가 여러 Order를 가질 수 있도록 설정
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)  // User가 여러 Order를 가질 수 있도록 설정
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user")  // User가 여러 Address를 가질 수 있도록 설정
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)  // User가 여러 Address를 가질 수 있도록 설정
     private List<Address> addresses;
 }
